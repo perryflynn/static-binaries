@@ -2,6 +2,13 @@ FROM reg.git.brickburg.de/bbcontainers/hub/debian:bookworm-slim
 
 ARG package=busybox
 
+ENV CFLAGS=-static
+ENV LDFLAGS=-static
+ENV CPPFLAGS=-static
+ENV CFLAGS_APPEND=-static
+ENV LDFLAGS_APPEND=-static
+ENV CPPFLAGS_APPEND=-static
+
 COPY root/ /
 
 RUN apt-get update && \

@@ -4,13 +4,15 @@ stages:
 build:busybox:
   stage: build
   script:
+    # build
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - cd src/busybox
     - docker build -t busybox:latest .
     - cd ../../
+    # extract binary
     - docker run -d --rm --name busyboxbuild busybox:latest /bin/sleep infinity
     - mkdir dist && cd dist
-    - docker cp busyboxbuild:/src/busybox .
+    - docker cp busyboxbuild:/src/busybox* .
     - docker stop busyboxbuild
     - cd ..
   artifacts:

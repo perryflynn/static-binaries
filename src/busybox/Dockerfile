@@ -15,8 +15,8 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get dist-upgrade -y && \
     apt-get install -y libncurses5-dev libncursesw5-dev vim \
-        gcc make gcc-arm64-linux-gnu binutils-arm64-linux-gnu \
-        gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu && \
+        gcc make gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu \
+        gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi && \
     apt-get build-dep -y ${package}
 
 WORKDIR /src

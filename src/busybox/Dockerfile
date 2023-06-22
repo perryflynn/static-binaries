@@ -23,5 +23,6 @@ RUN chown -Rv _apt:root . && \
     apt-get source ${package} && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
     cp /opt/busybox/custom.config . && \
+    make defconfig && \
     make CONFIG=custom.config && \
     cp busybox /src

@@ -14,10 +14,13 @@ COPY root/ /
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get dist-upgrade -y && \
+    apt-get install -y libncurses5-dev libncursesw5-dev vim && \
     apt-get build-dep -y ${package}
 
 WORKDIR /src
 
 RUN chown -Rv _apt:root . && \
     apt-get source ${package} && \
-    cd $(find . -maxdepth 1 -mindepth 1 -type d)
+    cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
+    make CONFIG=/opt/busybox/custom.config && \
+    cp busybox /src

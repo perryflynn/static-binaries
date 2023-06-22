@@ -18,4 +18,6 @@ RUN apt-get update && \
 
 WORKDIR /src
 
-#RUN apt-get source --build ${package}
+RUN chown -Rv _apt:root . && \
+    apt-get source ${package} && \
+    cd $(find . -maxdepth 1 -mindepth 1 -type d)

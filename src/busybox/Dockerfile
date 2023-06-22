@@ -16,8 +16,9 @@ RUN apt-get update && \
     apt-get dist-upgrade -y && \
     apt-get install -y libncurses5-dev libncursesw5-dev vim \
         gcc make gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu \
-        gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi && \
-    apt-get build-dep -y ${package}
+        gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi
+
+RUN apt-get build-dep -y ${package}
 
 WORKDIR /src
 
@@ -26,7 +27,8 @@ RUN chown -Rv _apt:root . && \
 
 RUN cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
     cp /opt/busybox/custom.config . && \
+    mkdir /dist && \
     make defconfig && \
-    make CONFIG=custom.config && cp busybox /src/busybox.86_64 && \
-    make CONFIG=custom.config CROSS_COMPILE=aarch64-linux-gnu- ARCH=aarch64 && cp busybox /src/busybox.aarch64 && \
-    make CONFIG=custom.config CROSS_COMPILE=arm-linux-gnueabi- ARCH=arm && cp busybox /src/busybox.arm
+    make CONFIG=custom.config && cp busybox /dist/busybox.86_64 && \
+    make CONFIG=custom.config CROSS_COMPILE=aarch64-linux-gnu- ARCH=aarch64 && cp busybox /dist/busybox.aarch64 && \
+    make CONFIG=custom.config CROSS_COMPILE=arm-linux-gnueabi- ARCH=arm && cp busybox /dist/busybox.arm

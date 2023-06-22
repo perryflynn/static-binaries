@@ -22,5 +22,6 @@ WORKDIR /src
 RUN chown -Rv _apt:root . && \
     apt-get source ${package} && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
-    make CONFIG=/opt/busybox/custom.config && \
+    cp /opt/busybox/custom.config . && \
+    make CONFIG=custom.config && \
     cp busybox /src

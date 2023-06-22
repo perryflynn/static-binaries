@@ -10,7 +10,7 @@ stages:
 #     - docker build -t busybox:latest .
 #     - cd ../../
 #     # extract binary
-#     - docker run -d --rm --name busyboxbuild busybox:latest /bin/sleep infinity
+#     - docker run -d --rm --name busyboxbuild busybox:latest /bin/sleep 300
 #     - sleep 3
 #     - docker cp busyboxbuild:/dist .
 #     - docker stop busyboxbuild
@@ -28,5 +28,13 @@ build:tcpdump:
     - cd src/tcpdump
     - docker build -t tcpdump:latest .
     - cd ../../
+    # extract binary
+    - docker run -d --rm --name tcpdumpbuild tcpdump:latest /bin/sleep 300
+    - sleep 3
+    - docker cp tcpdumpbuild:/dist .
+    - docker stop tcpdumpbuild
+  artifacts:
+    paths:
+      - dist/
   tags:
     - docker

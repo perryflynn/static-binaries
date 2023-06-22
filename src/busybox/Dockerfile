@@ -7,7 +7,7 @@ COPY root/ /
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get dist-upgrade -y && \
-    apt-get build-dep ${package}
+    apt-get build-dep -y ${package}
 
 WORKDIR /src
 

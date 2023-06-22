@@ -12,7 +12,7 @@ build:busybox:
     # extract binary
     - docker run -d --rm --name busyboxbuild busybox:latest /bin/sleep infinity
     - sleep 3
-    - docker cp busyboxbuild:/src/dist .
+    - docker cp busyboxbuild:/dist .
     - docker stop busyboxbuild
   artifacts:
     paths:

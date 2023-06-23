@@ -32,6 +32,8 @@ build:busybox:
     # build
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - cd src/busybox
+    - if [ "$compiler" == "." ]; then compiler=""; fi
+    - if [ "$arch" == "." ]; then arch=""; fi
     - docker build -t "$uidimage" --build-arg BASEIMAGE=$debian_base_image --build-arg CROSS_COMPILE=$compiler --build-arg ARCH=$arch --build-arg NAME=$name .
     - cd ../../
     # extract binary

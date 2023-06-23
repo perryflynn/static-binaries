@@ -1,6 +1,7 @@
 stages:
   - prepare
   - build
+  - pack
 
 variables:
   debian_base_image: $CI_REGISTRY_IMAGE/debian_base:latest
@@ -68,5 +69,12 @@ build:tcpdump:
   artifacts:
     paths:
       - dist/
+  tags:
+    - docker
+
+pack:pack:
+  stage: pack
+  script:
+    - ls -lisah dist
   tags:
     - docker

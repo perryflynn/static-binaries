@@ -15,12 +15,12 @@ ENV CPPFLAGS_APPEND=-static
 
 COPY root/ /
 
-RUN apt-get build-dep -y ${package}
-
 WORKDIR /src
 SHELL [ "/bin/bash", "-c" ]
 
-RUN chown -Rv _apt:root . && \
+RUN apt-get update && \
+    apt-get build-dep -y ${package} && \
+    chown -Rv _apt:root . && \
     apt-get source ${package}
 
 RUN cd $(find . -maxdepth 1 -mindepth 1 -type d) && \

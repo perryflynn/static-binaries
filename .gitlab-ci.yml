@@ -12,6 +12,8 @@ prepare:debian-base:
     - cd src/debian-base
     - docker build -t "$debian_base_image" .
     - docker push $CI_REGISTRY_IMAGE/debian_base:latest
+  tags:
+    - docker
 
 build:busybox:
   stage: build

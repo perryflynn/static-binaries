@@ -76,5 +76,6 @@ pack:pack:
   stage: pack
   script:
     - ls -lisah dist
+    - md5sum dist/*
   tags:
     - docker

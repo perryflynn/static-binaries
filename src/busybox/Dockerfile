@@ -5,6 +5,7 @@ FROM ${BASEIMAGE}
 ARG package=busybox
 ARG CROSS_COMPILE=
 ARG ARCH=
+ARG NAME=
 
 ENV CFLAGS=-static
 ENV LDFLAGS=-static
@@ -27,6 +28,7 @@ RUN cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
     cp /opt/busybox/custom.config . && \
     mkdir /dist && \
     make defconfig && \
-    ( if [ "$CROSS_COMPILE" == "." ]; then CROSS_COMPILE=""; fi ) && \
-    ( if [ "$ARCH" == "." ]; then ARCH=""; fi ) && \
-    make CONFIG=custom.config CROSS_COMPILE=$CROSS_COMPILE ARCH=$ARCH && cp busybox /dist/busybox.$ARCH
+    MAKEARGS=() && \
+    ( if [ ! "$CROSS_COMPILE" == "." ]; then MAKEARGS+=("CROSS_COMPILE=$CROSS_COMPILE"); fi ) && \
+    ( if [ ! "$ARCH" == "." ]; then MAKEARGS+=("ARCH=$ARCH"); fi ) && \
+    make CONFIG=custom.config "${MAKEARGS[@]}" && cp busybox /dist/busybox.$NAME

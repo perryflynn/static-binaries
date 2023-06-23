@@ -21,15 +21,18 @@ build:busybox:
     matrix:
       - compiler: '.'
         arch: '.'
+        name: '86_64'
       - compiler: 'aarch64-linux-gnu-'
         arch: 'aarch64'
+        name: aarch64
       - compiler: 'arm-linux-gnueabi-'
         arch: 'arm'
+        name: 'arm'
   script:
     # build
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - cd src/busybox
-    - docker build -t "$uidimage" --build-arg BASEIMAGE=$debian_base_image --build-arg CROSS_COMPILE=$compiler --build-arg ARCH=$arch .
+    - docker build -t "$uidimage" --build-arg BASEIMAGE=$debian_base_image --build-arg CROSS_COMPILE=$compiler --build-arg ARCH=$arch --build-arg NAME=$name .
     - cd ../../
     # extract binary
     - docker run -d --rm --name "$uidname" "$uidimage" /bin/sleep 300

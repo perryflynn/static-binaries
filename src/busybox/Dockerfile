@@ -1,6 +1,9 @@
-FROM reg.git.brickburg.de/bbcontainers/hub/debian:bookworm-slim
-
+ARG BASEIMAGE
 ARG package=busybox
+ARG CROSS_COMPILE=
+ARG ARCH=
+
+FROM ${BASEIMAGE}
 
 ENV CFLAGS=-static
 ENV LDFLAGS=-static
@@ -10,13 +13,6 @@ ENV LDFLAGS_APPEND=-static
 ENV CPPFLAGS_APPEND=-static
 
 COPY root/ /
-
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get dist-upgrade -y && \
-    apt-get install -y libncurses5-dev libncursesw5-dev vim \
-        gcc make gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu \
-        gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi
 
 RUN apt-get build-dep -y ${package}
 

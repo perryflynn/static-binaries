@@ -1,22 +1,47 @@
 stages:
+  - prepare
   - build
+
+variables:
+  debian_base_image: $CI_REGISTRY_IMAGE/debian_base:latest
+
+prepare:debian-base:
+  stage: prepare
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+    - cd src/debian-base
+    - docker build -t "$debian_base_image" .
+    - docker push $CI_REGISTRY_IMAGE/debian_base:latest
 
 build:busybox:
   stage: build
+  parallel:
+    matrix:
+      - compiler: ''
+        arch: ''
+      - compiler: 'aarch64-linux-gnu-'
+        arch: 'aarch64'
+      - compiler: 'arm-linux-gnueabi-'
+        arch: 'arm'
   script:
     # build
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - cd src/busybox
-    - docker build -t busybox:latest .
+    - docker build -t "$uidimage" --build-arg BASEIMAGE=$debian_base_image --build-arg CROSS_COMPILE=$compiler --build-arg ARCH=$arch .
     - cd ../../
     # extract binary
-    - docker run -d --rm --name busyboxbuild busybox:latest /bin/sleep 300
+    - docker run -d --rm --name "$uidname" "$uidimage" /bin/sleep 300
     - sleep 3
-    - docker cp busyboxbuild:/dist .
-    - docker stop busyboxbuild
+    - docker cp $uidname:/dist .
+    - docker stop $uidname
+    - sleep 3
+    - docker image rm "$uidname"
   artifacts:
     paths:
       - dist/
+  variables:
+    uidimage: "staticbuild_${CI_JOB_ID}:latest"
+    uidname: "staticbuild_${CI_JOB_ID}"
   tags:
     - docker
 

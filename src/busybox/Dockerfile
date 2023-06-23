@@ -17,6 +17,7 @@ COPY root/ /
 RUN apt-get build-dep -y ${package}
 
 WORKDIR /src
+SHELL [ "/bin/bash", "-c" ]
 
 RUN chown -Rv _apt:root . && \
     apt-get source ${package}
@@ -25,6 +26,6 @@ RUN cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
     cp /opt/busybox/custom.config . && \
     mkdir /dist && \
     make defconfig && \
-    make CONFIG=custom.config && cp busybox /dist/busybox.86_64 && \
-    make CONFIG=custom.config CROSS_COMPILE=aarch64-linux-gnu- ARCH=aarch64 && cp busybox /dist/busybox.aarch64 && \
-    make CONFIG=custom.config CROSS_COMPILE=arm-linux-gnueabi- ARCH=arm && cp busybox /dist/busybox.arm
+    ( if [ "$CROSS_COMPILE" == "." ]; then CROSS_COMPILE=""; fi ) && \
+    ( if [ "$ARCH" == "." ]; then ARCH=""; fi ) && \
+    make CONFIG=custom.config CROSS_COMPILE=$CROSS_COMPILE ARCH=$ARCH && cp busybox /dist/busybox.$ARCH

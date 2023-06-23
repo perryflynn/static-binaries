@@ -17,8 +17,8 @@ build:busybox:
   stage: build
   parallel:
     matrix:
-      - compiler: ''
-        arch: ''
+      - compiler: '.'
+        arch: '.'
       - compiler: 'aarch64-linux-gnu-'
         arch: 'aarch64'
       - compiler: 'arm-linux-gnueabi-'

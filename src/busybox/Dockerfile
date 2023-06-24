@@ -25,6 +25,6 @@ RUN cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
     mkdir /dist && \
     make defconfig && \
     MAKEARGS=() && \
-    ( if [ -n "$CROSS_COMPILE" ]; then MAKEARGS+=("CROSS_COMPILE=$CROSS_COMPILE"); fi ) && \
-    ( if [ -n "$ARCH" ]; then MAKEARGS+=("ARCH=$ARCH"); fi ) && \
+    if [ -n "$CROSS_COMPILE" ]; then MAKEARGS+=("CROSS_COMPILE=$CROSS_COMPILE"); fi && \
+    if [ -n "$ARCH" ]; then MAKEARGS+=("ARCH=$ARCH"); fi && \
     make CONFIG=custom.config "${MAKEARGS[@]}" && cp busybox /dist/busybox.$NAME

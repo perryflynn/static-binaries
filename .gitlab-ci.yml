@@ -97,3 +97,4 @@ pack:pack:
   script:
     - ls -lisah dist
     - md5sum dist/*
+    - file dist/*

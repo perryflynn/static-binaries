@@ -12,7 +12,7 @@ RUN wget https://www.tcpdump.org/release/libpcap-${libpcapversion}.tar.gz && \
     tar -xvf libpcap-${libpcapversion}.tar.gz && \
     cd libpcap-${libpcapversion} && \
     MAKEARGS=() && \
-    ( if [ -n "$CROSS_COMPILE" ]; then MAKEARGS+=("--host=$CROSS_COMPILE"); fi ) && \
+    if [ -n "$CROSS_COMPILE" ]; then MAKEARGS+=("--host=$CROSS_COMPILE"); fi && \
     echo "Args: ${MAKEARGS[@]}" && \
     CC="${CROSS_COMPILE:+$CROSS_COMPILE-}gcc" CFLAGS=-static ./configure "${MAKEARGS[@]}" --with-pcap=linux && \
     make
@@ -20,7 +20,7 @@ RUN wget https://www.tcpdump.org/release/libpcap-${libpcapversion}.tar.gz && \
 RUN wget https://www.tcpdump.org/release/tcpdump-${tcpdumpversion}.tar.gz && \
     tar -xvf tcpdump-${tcpdumpversion}.tar.gz && \
     cd tcpdump-${tcpdumpversion} && \
-    ( if [ -n "$CROSS_COMPILE" ]; then MAKEARGS+=("--host=$CROSS_COMPILE"); fi ) && \
+    if [ -n "$CROSS_COMPILE" ]; then MAKEARGS+=("--host=$CROSS_COMPILE"); fi && \
     echo "Args: ${MAKEARGS[@]}" && \
     CC="${CROSS_COMPILE:+$CROSS_COMPILE-}gcc" CFLAGS=-static ./configure "${MAKEARGS[@]}" --without-crypto && \
     make

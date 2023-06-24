@@ -4,10 +4,7 @@ FROM ${BASEIMAGE}
 ARG tcpdumpversion=4.99.4
 ARG libpcapversion=1.10.4
 
-WORKDIR /src
-SHELL [ "/bin/bash", "-c" ]
-
-RUN wget wget https://www.tcpdump.org/release/libpcap-${libpcapversion}.tar.gz \
+RUN wget https://www.tcpdump.org/release/libpcap-${libpcapversion}.tar.gz \
     && tar -xvf libpcap-${libpcapversion}.tar.gz \
     && cd libpcap-${libpcapversion} \
     && CFLAGS=-static ./configure \

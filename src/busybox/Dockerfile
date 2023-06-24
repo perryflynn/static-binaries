@@ -15,9 +15,6 @@ ENV CPPFLAGS_APPEND=-static
 
 COPY root/ /
 
-WORKDIR /src
-SHELL [ "/bin/bash", "-c" ]
-
 RUN apt-get update && \
     apt-get build-dep -y ${package} && \
     chown -Rv _apt:root . && \

@@ -94,6 +94,7 @@ build:tcpdump:
 pack:pack:
   stage: pack
   extends: .tpl:stable
+  image: "$debian_base_image"
   script:
     - ls -lisah dist
     - md5sum dist/*

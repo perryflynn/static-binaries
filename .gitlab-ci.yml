@@ -8,6 +8,8 @@ variables:
 
 .tpl:docker:
   image: reg.git.brickburg.de/bbcontainers/hub/docker:stable
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
   tags:
     - docker
 

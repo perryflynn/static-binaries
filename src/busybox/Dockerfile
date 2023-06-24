@@ -1,5 +1,4 @@
 ARG BASEIMAGE
-
 FROM ${BASEIMAGE}
 
 ARG package=busybox

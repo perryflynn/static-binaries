@@ -1,14 +1,22 @@
-FROM reg.git.brickburg.de/bbcontainers/hub/alpine:3
+ARG BASEIMAGE
+FROM ${BASEIMAGE}
 
-ARG version=4.99.4
+ARG tcpdumpversion=4.99.4
+ARG libpcapversion=1.10.4
 
-RUN apk add gcc g++ make automake libpcap-dev
+WORKDIR /src
+SHELL [ "/bin/bash", "-c" ]
 
-WORKDIR /opt
-RUN wget https://www.tcpdump.org/release/tcpdump-${version}.tar.gz \
-    && tar -xvf tcpdump-${version}.tar.gz \
-    && cd tcpdump-${version} \
+RUN wget wget https://www.tcpdump.org/release/libpcap-${libpcapversion}.tar.gz \
+    && tar -xvf libpcap-${libpcapversion}.tar.gz \
+    && cd libpcap-${libpcapversion} \
+    && CFLAGS=-static ./configure \
+    && make
+
+RUN wget https://www.tcpdump.org/release/tcpdump-${tcpdumpversion}.tar.gz \
+    && tar -xvf tcpdump-${tcpdumpversion}.tar.gz \
+    && cd tcpdump-${tcpdumpversion} \
     && CFLAGS=-static ./configure --without-crypto \
     && make
 
-RUN mkdir /dist && mv tcpdump-${version}/tcpdump /dist/tcpdump.86_64
+RUN mkdir /dist && mv tcpdump-${tcpdumpversion}/tcpdump /dist/tcpdump.86_64

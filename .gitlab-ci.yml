@@ -6,18 +6,28 @@ stages:
 variables:
   debian_base_image: $CI_REGISTRY_IMAGE/debian_base:latest
 
+.tpl:docker:
+  image: reg.git.brickburg.de/bbcontainers/hub/docker:stable
+  tags:
+    - docker
+
+.tpl:stable:
+  extends: .tpl:docker
+  only:
+    - master
+
 prepare:debian-base:
   stage: prepare
+  extends: .tpl:stable
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - cd src/debian-base
     - docker build -t "$debian_base_image" .
     - docker push $CI_REGISTRY_IMAGE/debian_base:latest
-  tags:
-    - docker
 
 build:busybox:
   stage: build
+  extends: .tpl:stable
   parallel:
     matrix:
       - compiler: '.'
@@ -50,16 +60,15 @@ build:busybox:
   variables:
     uidimage: "staticbuild_${CI_JOB_ID}:latest"
     uidname: "staticbuild_${CI_JOB_ID}"
-  tags:
-    - docker
 
 build:tcpdump:
   stage: build
+  extends: .tpl:stable
   script:
     # build
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - cd src/tcpdump
-    - docker build -t tcpdump:latest .
+    - docker build -t tcpdump:latest --build-arg BASEIMAGE=$debian_base_image .
     - cd ../../
     # extract binary
     - docker run -d --rm --name tcpdumpbuild tcpdump:latest /bin/sleep 300
@@ -69,13 +78,10 @@ build:tcpdump:
   artifacts:
     paths:
       - dist/
-  tags:
-    - docker
 
 pack:pack:
   stage: pack
+  extends: .tpl:stable
   script:
     - ls -lisah dist
     - md5sum dist/*
-  tags:
-    - docker

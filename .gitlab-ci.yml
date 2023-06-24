@@ -68,9 +68,9 @@ build:tcpdump:
     matrix:
       - compiler: '.'
         name: '86_64'
-      - compiler: 'aarch64-linux-gnu-'
+      - compiler: 'aarch64-linux-gnu'
         name: aarch64
-      - compiler: 'arm-linux-gnueabi-'
+      - compiler: 'arm-linux-gnueabi'
         name: 'arm'
   script:
     # build

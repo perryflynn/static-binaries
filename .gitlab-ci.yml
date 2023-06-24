@@ -64,20 +64,32 @@ build:busybox:
 build:tcpdump:
   stage: build
   extends: .tpl:stable
+  parallel:
+    matrix:
+      - compiler: '.'
+        name: '86_64'
+      - compiler: 'aarch64-linux-gnu-'
+        name: aarch64
+      - compiler: 'arm-linux-gnueabi-'
+        name: 'arm'
   script:
     # build
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - cd src/tcpdump
-    - docker build -t tcpdump:latest --build-arg BASEIMAGE=$debian_base_image .
+    - if [ "$compiler" == "." ]; then compiler=""; fi
+    - docker build -t "$uidimage" --build-arg BASEIMAGE=$debian_base_image --build-arg CROSS_COMPILE=$compiler --build-arg NAME=$name .
     - cd ../../
     # extract binary
-    - docker run -d --rm --name tcpdumpbuild tcpdump:latest /bin/sleep 300
+    - docker run -d --rm --name "$uidname" "$uidimage" /bin/sleep 300
     - sleep 3
-    - docker cp tcpdumpbuild:/dist .
-    - docker stop tcpdumpbuild
+    - docker cp $uidname:/dist .
+    - docker stop $uidname
   artifacts:
     paths:
       - dist/
+  variables:
+    uidimage: "staticbuild_${CI_JOB_ID}:latest"
+    uidname: "staticbuild_${CI_JOB_ID}"
 
 pack:pack:
   stage: pack

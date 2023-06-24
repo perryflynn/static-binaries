@@ -7,7 +7,7 @@ RUN apt-get update && \
         gcc g++ make automake \
         gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu \
         gcc-arm-linux-gnueabi g++-arm-linux-gnueabi binutils-arm-linux-gnueabi \
-        curl wget ca-certificates gnupg2 \
+        curl wget ca-certificates gnupg2 file \
         flex bison
 
 WORKDIR /src

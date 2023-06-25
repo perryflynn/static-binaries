@@ -103,7 +103,7 @@ pack:pack:
           sha=$(sha512sum $name | awk '{print $1}')
           info=$(file $name | awk '{for (i=2; i<NF; i++) printf $i " "; print $NF}')
           echo -e "name: $name\nsha512sum: $sha\nfileinfo: $info\n" >> dist/info.txt
-      done <<< "$(find . -type f ! -iname meta.txt)"
+      done <<< "$(find dist/ -type f ! -iname meta.txt)"
     - |
       lftp -d --norc <<EOF
       set ftp:ssl-force true

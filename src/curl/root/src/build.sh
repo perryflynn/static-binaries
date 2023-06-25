@@ -43,6 +43,7 @@ make -j4 V=1 LDFLAGS="-static -all-static"
 strip src/curl
 
 # print out some info about this, size, and to ensure it's actually fully static
+echo "arch=$ARCH"
 ls -lah src/curl
 file src/curl
 # exit with error code 1 if the executable is dynamic, not static

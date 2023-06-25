@@ -15,7 +15,8 @@ RUN apk add gcc make musl-dev ncurses-static && \
         --enable-multibyte --with-features=huge --without-x --with-tlib=ncursesw && \
     make && \
     make install && \
-    mkdir -p /dist && \
-    cp -r /usr/local/* /dist && \
-    ls -lisahRF /dist && \
-    strip /dist/vim
+    mkdir -p /dist /vim && \
+    cp -r /usr/local/* /vim && \
+    strip /vim/bin/vim && \
+    tar cvzf /dist/vim-${ARCH}.tar.gz /vim && \
+    ls -lisahRF /dist

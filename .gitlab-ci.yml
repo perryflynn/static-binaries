@@ -14,7 +14,7 @@ variables:
 .tpl:stable:
   extends: .tpl:docker
   only:
-    - master
+    - wusel
 
 prepare:debian-base:
   stage: prepare
@@ -90,6 +90,15 @@ build:tcpdump:
   variables:
     uidimage: "staticbuild_${CI_JOB_ID}:latest"
     uidname: "staticbuild_${CI_JOB_ID}"
+
+build:curl:
+  stage: build
+  extends: .tpl:docker
+  script:
+    # build
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+    - cd src/curl
+    - docker build -t curl:latest .
 
 pack:pack:
   stage: pack

@@ -96,6 +96,16 @@ pack:pack:
   extends: .tpl:stable
   image: "$debian_base_image"
   script:
-    - ls -lisah dist
-    - md5sum dist/*
-    - file dist/*
+    - |
+      rm -f dist/info.txt
+      while read name
+      do
+          sha=$(sha512sum $name | awk '{print $1}')
+          info=$(file $name | awk '{for (i=2; i<NF; i++) printf $i " "; print $NF}')
+          echo -e "name: $name\nsha512sum: $sha\nfileinfo: $info\n" >> dist/info.txt
+      done <<< "$(find . -type f ! -iname meta.txt)"
+    - |
+      lftp -e "mirror -R dist/ $FTP_DIR" -u ${FTP_USER},${FTP_PASSWORD} ${FTP_HOST}
+  artifacts:
+    paths:
+      - dist/

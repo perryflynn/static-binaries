@@ -17,5 +17,5 @@ RUN apk add gcc make musl-dev ncurses-static && \
     make install && \
     mkdir -p /dist && \
     cp -r /usr/local/* /dist && \
-    ls -lisah /dist && \
+    ls -lisahRF /dist && \
     strip /dist/vim

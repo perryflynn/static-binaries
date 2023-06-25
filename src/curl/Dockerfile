@@ -1,4 +1,6 @@
-FROM reg.git.brickburg.de/bbcontainers/hub/alpine:3
+ARG BASEIMAGE
+FROM ${BASEIMAGE}
+
 ARG ARCH=amd64
 
 COPY /root /

@@ -53,7 +53,7 @@ build:busybox:
     - docker cp $uidname:/dist .
     - docker stop $uidname
     - sleep 3
-    - docker image rm "$uidname"
+    - docker image rm "$uidimage"
   artifacts:
     paths:
       - dist/
@@ -84,6 +84,8 @@ build:tcpdump:
     - sleep 3
     - docker cp $uidname:/dist .
     - docker stop $uidname
+    - sleep 3
+    - docker image rm "$uidimage"
   artifacts:
     paths:
       - dist/
@@ -110,6 +112,8 @@ build:curl:
     - sleep 3
     - docker cp $uidname:/dist .
     - docker stop $uidname
+    - sleep 3
+    - docker image rm "$uidimage"
   artifacts:
     paths:
       - dist/
@@ -130,6 +134,7 @@ pack:pack:
           info=$(file $name | awk '{for (i=2; i<NF; i++) printf $i " "; print $NF}')
           echo -e "name: $name\nsha512sum: $sha\nfileinfo: $info\n" >> dist/info.txt
       done <<< "$(find dist/ -type f ! -iname meta.txt | sort)"
+    - cat dist/info.txt
     - |
       lftp -d --norc <<EOF
       set ftp:ssl-force true

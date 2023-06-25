@@ -12,6 +12,10 @@ CURL_VERSION='8.1.2'
 
 set -exu
 
+apk add build-base clang openssl-dev nghttp2-dev nghttp2-static libssh2-dev libssh2-static
+
+apk add openssl-libs-static zlib-static || true
+
 if [ ! -f curl-${CURL_VERSION}.tar.gz ]
 then
 

@@ -105,11 +105,9 @@ pack:pack:
           echo -e "name: $name\nsha512sum: $sha\nfileinfo: $info\n" >> dist/info.txt
       done <<< "$(find . -type f ! -iname meta.txt)"
     - |
-      lftp -u ${FTP_USER},${FTP_PASSWORD} <<EOF
-      set ftp:ssl-auth TLS
-      set ssl:verify-certificate true
-      set ftp:ssl-protect-data true
-      open ${FTP_HOST}
+      lftp -d --norc <<EOF
+      set ftp:ssl-force true
+      open -u ${FTP_USER},${FTP_PASSWORD} ftp://${FTP_HOST}
       mirror -R dist/ $FTP_DIR
       exit
       EOF

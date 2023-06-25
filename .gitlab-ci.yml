@@ -99,8 +99,8 @@ build:curl:
   parallel:
     matrix:
       - ARCH: 'amd64'
-      - ARCH: 'aarch64'
-      - ARCH: 'armv7'
+      #- ARCH: 'aarch64'
+      #- ARCH: 'armv7'
   script:
     # build
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY

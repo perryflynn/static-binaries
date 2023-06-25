@@ -6,7 +6,9 @@
 # docker run --rm -v $(pwd):/tmp -w /tmp -e ARCH=aarch64 multiarch/alpine:aarch64-latest-stable /tmp/build.sh
 # docker run --rm -v $(pwd):/tmp -w /tmp -e ARCH=ARCH_HERE ALPINE_IMAGE_HERE /tmp/build.sh
 
-CURL_VERSION='8.0.1'
+env
+
+CURL_VERSION='8.1.2'
 
 [ "$1" != "" ] && CURL_VERSION="$1"
 
@@ -22,7 +24,8 @@ then
     # for gpg verification of the curl download below
     apk add gnupg
 
-    wget https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz.asc
+    wget https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz \
+        https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz.asc
 
     # convert mykey.asc to a .pgp file to use in verification
     gpg --no-default-keyring --yes -o ./curl.gpg --dearmor mykey.asc
@@ -39,9 +42,10 @@ cd curl-${CURL_VERSION}/
 # gcc is apparantly incapable of building a static binary, even gcc -static helloworld.c ends up linked to libc, instead of solving, use clang
 export CC=clang
 
-LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure --disable-shared --enable-static --disable-ldap --enable-ipv6 --enable-unix-sockets --with-ssl --with-libssh2
+ARCH=$ARCH LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure --disable-shared \
+    --enable-static --disable-ldap --enable-ipv6 --enable-unix-sockets --with-ssl --with-libssh2
 
-make -j4 V=1 LDFLAGS="-static -all-static"
+ARCH=$ARCH make -j4 V=1 LDFLAGS="-static -all-static"
 
 # binary is ~13M before stripping, 2.6M after
 strip src/curl

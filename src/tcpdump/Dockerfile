@@ -4,25 +4,18 @@ FROM ${BASEIMAGE}
 ARG tcpdumpversion=4.99.4
 ARG libpcapversion=1.10.4
 
-ARG package=tcpdump
-ARG CROSS_COMPILE=
-ARG NAME=
+ARG ARCH=amd64
 
 RUN wget https://www.tcpdump.org/release/libpcap-${libpcapversion}.tar.gz && \
     tar -xvf libpcap-${libpcapversion}.tar.gz && \
     cd libpcap-${libpcapversion} && \
-    MAKEARGS=() && \
-    if [ -n "$CROSS_COMPILE" ]; then MAKEARGS+=("--host=$CROSS_COMPILE"); fi && \
-    echo "Args: ${MAKEARGS[@]}" && \
-    CC="${CROSS_COMPILE:+$CROSS_COMPILE-}gcc" CFLAGS=-static ./configure "${MAKEARGS[@]}" --with-pcap=linux && \
+    CFLAGS=-static ./configure --with-pcap=linux && \
     make
 
 RUN wget https://www.tcpdump.org/release/tcpdump-${tcpdumpversion}.tar.gz && \
     tar -xvf tcpdump-${tcpdumpversion}.tar.gz && \
     cd tcpdump-${tcpdumpversion} && \
-    if [ -n "$CROSS_COMPILE" ]; then MAKEARGS+=("--host=$CROSS_COMPILE"); fi && \
-    echo "Args: ${MAKEARGS[@]}" && \
-    CC="${CROSS_COMPILE:+$CROSS_COMPILE-}gcc" CFLAGS=-static ./configure "${MAKEARGS[@]}" --without-crypto && \
+    CFLAGS=-static ./configure --without-crypto && \
     make
 
-RUN mkdir /dist && mv tcpdump-${tcpdumpversion}/tcpdump /dist/tcpdump.$NAME
+RUN mkdir /dist && mv tcpdump-${tcpdumpversion}/tcpdump /dist/tcpdump.$ARCH

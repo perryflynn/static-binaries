@@ -94,35 +94,9 @@ build:busybox:
 
 build:tcpdump:
   stage: build
-  extends: .tpl:stable
-  parallel:
-    matrix:
-      - compiler: '.'
-        name: '86_64'
-      - compiler: 'aarch64-linux-gnu'
-        name: aarch64
-      - compiler: 'arm-linux-gnueabi'
-        name: 'arm'
-  script:
-    # build
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - cd src/tcpdump
-    - if [ "$compiler" == "." ]; then compiler=""; fi
-    - docker build -t "$uidimage" --build-arg BASEIMAGE=$debian_base_image --build-arg CROSS_COMPILE=$compiler --build-arg NAME=$name .
-    - cd ../../
-    # extract binary
-    - docker run -d --rm --name "$uidname" "$uidimage" /bin/sleep 300
-    - sleep 3
-    - docker cp $uidname:/dist .
-    - docker stop $uidname
-    - sleep 3
-    - docker image rm "$uidimage"
-  artifacts:
-    paths:
-      - dist/
+  extends: .tpl:defaultalpinebuild
   variables:
-    uidimage: "staticbuild_${CI_JOB_ID}:latest"
-    uidname: "staticbuild_${CI_JOB_ID}"
+    containerfolder: tcpdump
 
 build:curl:
   stage: build

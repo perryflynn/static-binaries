@@ -5,6 +5,8 @@ ARG ARCH=amd64
 ARG packageversion=9.0
 ARG packagedir=vim90
 
+# https://github.com/dtschan/vim-static/blob/master/build.sh
+
 RUN apk add gcc make musl-dev ncurses-static && \
     wget https://ftp.nluug.nl/pub/vim/unix/vim-${packageversion}.tar.bz2 && \
     tar xvf vim-${packageversion}.tar.bz2 && \

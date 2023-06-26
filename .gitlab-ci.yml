@@ -16,6 +16,37 @@ variables:
   only:
     - master
 
+.tpl:defaultalpinebuild:
+  stage: build
+  extends: .tpl:stable
+  parallel:
+    matrix:
+      - ARCH: 'amd64'
+        BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/alpine:3
+      - ARCH: 'aarch64'
+        BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm64v8/alpine:3
+      - ARCH: 'armv7'
+        BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm32v7/alpine:3
+  script:
+    # build
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+    - cd src/$containerfolder
+    - docker build -t "$uidimage" --build-arg ARCH=$ARCH --build-arg BASEIMAGE=$BASEIMAGE .
+    - cd ../../
+    # extract binary
+    - docker run -d --rm --name "$uidname" "$uidimage" /bin/sleep 300
+    - sleep 3
+    - docker cp $uidname:/dist .
+    - docker stop $uidname
+    - sleep 3
+    - docker image rm "$uidimage"
+  artifacts:
+    paths:
+      - dist/
+  variables:
+    uidimage: "staticbuild_${CI_JOB_ID}:latest"
+    uidname: "staticbuild_${CI_JOB_ID}"
+
 prepare:debian-base:
   stage: prepare
   extends: .tpl:stable
@@ -95,65 +126,15 @@ build:tcpdump:
 
 build:curl:
   stage: build
-  extends: .tpl:stable
-  parallel:
-    matrix:
-      - ARCH: 'amd64'
-        BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/alpine:3
-      - ARCH: 'aarch64'
-        BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm64v8/alpine:3
-      - ARCH: 'armv7'
-        BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm32v7/alpine:3
-  script:
-    # build
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - cd src/curl
-    - docker build -t "$uidimage" --build-arg ARCH=$ARCH --build-arg BASEIMAGE=$BASEIMAGE .
-    - cd ../../
-    # extract binary
-    - docker run -d --rm --name "$uidname" "$uidimage" /bin/sleep 300
-    - sleep 3
-    - docker cp $uidname:/dist .
-    - docker stop $uidname
-    - sleep 3
-    - docker image rm "$uidimage"
-  artifacts:
-    paths:
-      - dist/
+  extends: .tpl:defaultalpinebuild
   variables:
-    uidimage: "staticbuild_${CI_JOB_ID}:latest"
-    uidname: "staticbuild_${CI_JOB_ID}"
+    containerfolder: curl
 
 build:vim:
   stage: build
-  extends: .tpl:stable
-  parallel:
-    matrix:
-      - ARCH: 'amd64'
-        BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/alpine:3
-      - ARCH: 'aarch64'
-        BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm64v8/alpine:3
-      - ARCH: 'armv7'
-        BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm32v7/alpine:3
-  script:
-    # build
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - cd src/vim
-    - docker build -t "$uidimage" --build-arg ARCH=$ARCH --build-arg BASEIMAGE=$BASEIMAGE .
-    - cd ../../
-    # extract binary
-    - docker run -d --rm --name "$uidname" "$uidimage" /bin/sleep 300
-    - sleep 3
-    - docker cp $uidname:/dist .
-    - docker stop $uidname
-    - sleep 3
-    - docker image rm "$uidimage"
-  artifacts:
-    paths:
-      - dist/
+  extends: .tpl:defaultalpinebuild
   variables:
-    uidimage: "staticbuild_${CI_JOB_ID}:latest"
-    uidname: "staticbuild_${CI_JOB_ID}"
+    containerfolder: vim
 
 pack:pack:
   stage: pack

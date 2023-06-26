@@ -7,7 +7,8 @@ ARG libpcapversion=1.10.4
 ARG ARCH=amd64
 
 RUN apk add build-base clang openssl-dev && \
-    apk add openssl-libs-static zlib-static || true
+    apk add openssl-libs-static zlib-static || true && \
+    apk install flex bison
 
 RUN wget https://www.tcpdump.org/release/libpcap-${libpcapversion}.tar.gz && \
     tar -xvf libpcap-${libpcapversion}.tar.gz && \

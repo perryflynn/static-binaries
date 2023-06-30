@@ -20,5 +20,5 @@ RUN wget https://www.tcpdump.org/release/tcpdump-${tcpdumpversion}.tar.gz && \
     CFLAGS=-static ./configure --without-crypto && \
     make && \
     mkdir /dist && \
-    mv tcpdump-${tcpdumpversion}/tcpdump /dist/tcpdump.$ARCH && \
+    mv tcpdump /dist/tcpdump.$ARCH && \
     strip /dist/tcpdump.$ARCH

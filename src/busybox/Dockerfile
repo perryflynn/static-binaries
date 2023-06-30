@@ -3,7 +3,7 @@ FROM ${BASEIMAGE}
 
 WORKDIR /src
 
-ARG busyboxversion=0.60.3
+ARG busyboxversion=1.36.1
 ARG ARCH=amd64
 
 RUN apk add build-base clang openssl-dev linux-headers && \

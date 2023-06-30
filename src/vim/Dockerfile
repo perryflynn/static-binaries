@@ -23,6 +23,6 @@ RUN wget https://ftp.nluug.nl/pub/vim/unix/vim-${packageversion}.tar.bz2 && \
     strip /vim/bin/vim && \
     tar cvzf /dist/vim-${ARCH}.tar.gz /vim
 
-RUN /vim/bin/vim --version | head -n 1 > /dist/.version-vim.$ARCH && \
+RUN /vim/bin/vim --version | head -n 1 > /dist/.version-vim-${ARCH}.tar.gz && \
     /vim/bin/vim --version && \
     /vim/bin/vim --help

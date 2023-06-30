@@ -108,6 +108,9 @@ pack:pack:
   image: "$alpine_base_image_own"
   script:
     - cd dist
+    # create all-in-one package
+    - cp -r dist serverless.industries-static-binaries
+    - tar cvzf dist/all.tar.gz serverless.industries-static-binaries
     # create info.txt
     - rm -f info.txt
     - |
@@ -119,8 +122,12 @@ pack:pack:
           sha512=$(sha512sum $name | awk '{print $2": sha512sum: "$1}')
 
           info=$(file $name)
+          versionfile=".version-$(basename "$name")"
 
-          echo "$name: $(cat ".version-$(basename "$name")")" >> info.txt
+          if [ -f "$versionfile" ]; then
+              echo "$name: $(cat "$versionfile")" >> info.txt
+          fi
+
           echo "$info" >> info.txt
           echo "$md5" >> info.txt
           echo "$sha1" >> info.txt
@@ -131,9 +138,6 @@ pack:pack:
       done <<< "$(find . -type f ! -iname '.version-*' | sort)"
     - cat info.txt
     - cd ..
-    # create all-in-one package
-    - cp -r dist serverless.industries-static-binaries
-    - tar cvzf dist/all.tar.gz serverless.industries-static-binaries
     # upload
     - |
       lftp -d --norc <<EOF
@@ -142,6 +146,3 @@ pack:pack:
       mirror --reverse --delete-first --delete dist/ $FTP_DIR
       exit
       EOF
-  artifacts:
-    paths:
-      - dist/

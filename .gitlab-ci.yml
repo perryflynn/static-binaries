@@ -104,12 +104,12 @@ pack:pack:
 
           info=$(file $name)
 
-          echo "$info" >> dist/info.txt
-          echo "$md5" >> dist/info.txt
-          echo "$sha1" >> dist/info.txt
-          echo "$sha256" >> dist/info.txt
-          echo "$sha512" >> dist/info.txt
-          echo >> dist/info.txt
+          echo "$info" >> info.txt
+          echo "$md5" >> info.txt
+          echo "$sha1" >> info.txt
+          echo "$sha256" >> info.txt
+          echo "$sha512" >> info.txt
+          echo >> info.txt
 
       done <<< "$(find . -type f | sort)"
     - cat info.txt

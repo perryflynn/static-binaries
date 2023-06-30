@@ -76,16 +76,28 @@ pack:pack:
   extends: .tpl:stable
   image: "$debian_base_image"
   script:
+    - cd dist
+    - rm -f info.txt
     - |
-      rm -f dist/info.txt
       while read name
       do
-          sha=$(sha512sum $name | awk '{print $1}')
-          info=$(file $name | awk '{for (i=2; i<NF; i++) printf $i " "; print $NF}')
-          bname=$(basename "$name")
-          echo -e "name: $bname\nsha512sum: $sha\nfileinfo: $info\n" >> dist/info.txt
-      done <<< "$(find dist/ -type f ! -iname meta.txt | sort)"
-    - cat dist/info.txt
+          md5=$(md5sum $name | awk '{print $2": md5sum: "$1}')
+          sha1=$(sha1sum $name | awk '{print $2": sha1sum: "$1}')
+          sha256=$(sha256sum $name | awk '{print $2": sha256sum: "$1}')
+          sha512=$(sha512sum $name | awk '{print $2": sha512sum: "$1}')
+
+          info=$(file $name)
+
+          echo "$info" >> dist/info.txt
+          echo "$md5" >> dist/info.txt
+          echo "$sha1" >> dist/info.txt
+          echo "$sha256" >> dist/info.txt
+          echo "$sha512" >> dist/info.txt
+          echo >> dist/info.txt
+      done \
+      <<< "$(find dist/ -type f ! -iname meta.txt | sort)"
+    - cat info.txt
+    - cd ..
     - |
       lftp -d --norc <<EOF
       set ftp:ssl-force true

@@ -1,6 +1,7 @@
 stages:
   - prepare
   - build
+  - test
   - pack
 
 variables:
@@ -101,6 +102,22 @@ build:iperf3:
   extends: .tpl:defaultalpinebuild
   variables:
     containerfolder: iperf3
+
+test:
+  stage: test
+  extends: .tpl:stable
+  image: "$alpine_base_image_own"
+  script:
+    - cd dist
+    - chmod a+x *
+    - |
+      while read name; do
+
+          echo "#-> $name"
+          ./$name --help
+          ./$name --version
+
+      done <<< "$(find . -type f | sort)"
 
 pack:pack:
   stage: pack

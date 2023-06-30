@@ -128,7 +128,7 @@ pack:pack:
           echo "$sha512" >> info.txt
           echo >> info.txt
 
-      done <<< "$(find . -type f | sort)"
+      done <<< "$(find . -type f ! -iname '.version-*' | sort)"
     - cat info.txt
     - cd ..
     # create all-in-one package

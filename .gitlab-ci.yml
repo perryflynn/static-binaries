@@ -87,6 +87,18 @@ build:vim:
   variables:
     containerfolder: vim
 
+build:iperf2:
+  stage: build
+  extends: .tpl:defaultalpinebuild
+  variables:
+    containerfolder: iperf2
+
+build:iperf3:
+  stage: build
+  extends: .tpl:defaultalpinebuild
+  variables:
+    containerfolder: iperf3
+
 pack:pack:
   stage: pack
   extends: .tpl:stable

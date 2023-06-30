@@ -24,4 +24,4 @@ RUN apk add --no-cache libuv-dev libuv-static && \
 RUN chmod a+x /dist/dig.$ARCH && \
     /dist/dig.$ARCH -v > /dist/.version-dig.$ARCH && \
     /dist/dig.$ARCH -v && \
-    /dist/dig.$ARCH --help
+    /dist/dig.$ARCH -h

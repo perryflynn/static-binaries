@@ -9,8 +9,7 @@ ARG packagedir=vim90
 
 # https://github.com/dtschan/vim-static/blob/master/build.sh
 
-RUN apk add gcc make musl-dev ncurses-static && \
-    wget https://ftp.nluug.nl/pub/vim/unix/vim-${packageversion}.tar.bz2 && \
+RUN wget https://ftp.nluug.nl/pub/vim/unix/vim-${packageversion}.tar.bz2 && \
     tar xvf vim-${packageversion}.tar.bz2 && \
     cd ${packagedir} && \
     LDFLAGS="-static" ./configure --disable-channel --disable-gpm \

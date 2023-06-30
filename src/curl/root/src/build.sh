@@ -14,15 +14,14 @@ CURL_VERSION='8.1.2'
 
 set -exu
 
-apk add build-base clang openssl-dev nghttp2-dev nghttp2-static libssh2-dev libssh2-static
-
-apk add openssl-libs-static zlib-static || true
+#apk add build-base clang openssl-dev nghttp2-dev nghttp2-static libssh2-dev libssh2-static
+#apk add openssl-libs-static zlib-static || true
 
 if [ ! -f curl-${CURL_VERSION}.tar.gz ]
 then
 
     # for gpg verification of the curl download below
-    apk add gnupg
+    #apk add gnupg
 
     wget https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz \
         https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz.asc

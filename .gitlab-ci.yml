@@ -4,8 +4,8 @@ stages:
   - pack
 
 variables:
-  debian_base_image: $CI_REGISTRY_IMAGE/debian_base:latest
-  alpine_base_image: reg.git.brickburg.de/bbcontainers/hub/alpine:3
+  alpine_base_image: "reg.git.brickburg.de/bbcontainers/hub/alpine:3"
+  alpine_base_image_own: "$CI_REGISTRY_IMAGE/alpine_base_amd64:latest"
 
 .tpl:docker:
   image: reg.git.brickburg.de/bbcontainers/hub/docker:stable
@@ -17,22 +17,28 @@ variables:
   only:
     - master
 
-.tpl:defaultalpinebuild:
-  stage: build
+.tpl:matrixbuild:
   extends: .tpl:stable
   parallel:
     matrix:
       - ARCH: 'amd64'
         BASEIMAGE: "$alpine_base_image"
+        OWNBASEIMAGE: "$alpine_base_image_own"
       - ARCH: 'aarch64'
         BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm64v8/alpine:3
+        OWNBASEIMAGE: "$CI_REGISTRY_IMAGE/alpine_base_aarch64:latest"
       - ARCH: 'armv7'
         BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm32v7/alpine:3
+        OWNBASEIMAGE: "$CI_REGISTRY_IMAGE/alpine_base_armv7:latest"
+
+.tpl:defaultalpinebuild:
+  stage: build
+  extends: .tpl:matrixbuild
   script:
     # build
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - cd src/$containerfolder
-    - docker build -t "$uidimage" --build-arg ARCH=$ARCH --build-arg BASEIMAGE=$BASEIMAGE .
+    - docker build -t "$uidimage" --build-arg ARCH=$ARCH --build-arg BASEIMAGE=$OWNBASEIMAGE .
     - cd ../../
     # extract binary
     - docker run -d --rm --name "$uidname" "$uidimage" /bin/sleep 300
@@ -47,6 +53,15 @@ variables:
   variables:
     uidimage: "staticbuild_${CI_JOB_ID}:latest"
     uidname: "staticbuild_${CI_JOB_ID}"
+
+prepare:baseimages:
+  stage: prepare
+  extends: .tpl:matrixbuild
+  script:
+    - src/base-alpine
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build -t "$OWNBASEIMAGE" --build-arg BASEIMAGE=$BASEIMAGE .
+    - docker push "$OWNBASEIMAGE"
 
 build:busybox:
   stage: build
@@ -75,9 +90,8 @@ build:vim:
 pack:pack:
   stage: pack
   extends: .tpl:stable
-  image: "$alpine_base_image"
+  image: "$alpine_base_image_own"
   script:
-    - apk add file lftp
     - cd dist
     - rm -f info.txt
     - |

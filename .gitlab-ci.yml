@@ -113,6 +113,9 @@ pack:pack:
     # create info.txt
     - cd dist
     - rm -f info.txt
+    - echo "Static self-containing builds of some system utilities" >> info.txt
+    - echo "Build at the $(date) by Christian Blechert <christian@serverless.industries>" >> info.txt
+    - echo >> info.txt
     - |
       while read name; do
 

@@ -107,11 +107,11 @@ pack:pack:
   extends: .tpl:stable
   image: "$alpine_base_image_own"
   script:
-    - cd dist
     # create all-in-one package
     - cp -r dist serverless.industries-static-binaries
     - tar cvzf dist/all.tar.gz serverless.industries-static-binaries
     # create info.txt
+    - cd dist
     - rm -f info.txt
     - |
       while read name; do

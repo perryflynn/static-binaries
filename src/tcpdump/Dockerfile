@@ -1,6 +1,8 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
+WORKDIR /src
+
 ARG tcpdumpversion=4.99.4
 ARG libpcapversion=1.10.4
 

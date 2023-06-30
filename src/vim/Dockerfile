@@ -1,6 +1,8 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
+WORKDIR /src
+
 ARG ARCH=amd64
 ARG packageversion=9.0
 ARG packagedir=vim90

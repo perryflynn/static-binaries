@@ -1,6 +1,8 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
+WORKDIR /src
+
 ARG busyboxversion=0.60.3
 ARG ARCH=amd64
 

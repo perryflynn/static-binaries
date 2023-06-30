@@ -47,50 +47,11 @@ variables:
     uidimage: "staticbuild_${CI_JOB_ID}:latest"
     uidname: "staticbuild_${CI_JOB_ID}"
 
-prepare:debian-base:
-  stage: prepare
-  extends: .tpl:stable
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - cd src/debian-base
-    - docker build -t "$debian_base_image" .
-    - docker push $CI_REGISTRY_IMAGE/debian_base:latest
-
 build:busybox:
   stage: build
-  extends: .tpl:stable
-  parallel:
-    matrix:
-      - compiler: '.'
-        arch: '.'
-        name: '86_64'
-      - compiler: 'aarch64-linux-gnu-'
-        arch: 'aarch64'
-        name: aarch64
-      - compiler: 'arm-linux-gnueabi-'
-        arch: 'arm'
-        name: 'arm'
-  script:
-    # build
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - cd src/busybox
-    - if [ "$compiler" == "." ]; then compiler=""; fi
-    - if [ "$arch" == "." ]; then arch=""; fi
-    - docker build -t "$uidimage" --build-arg BASEIMAGE=$debian_base_image --build-arg CROSS_COMPILE=$compiler --build-arg ARCH=$arch --build-arg NAME=$name .
-    - cd ../../
-    # extract binary
-    - docker run -d --rm --name "$uidname" "$uidimage" /bin/sleep 300
-    - sleep 3
-    - docker cp $uidname:/dist .
-    - docker stop $uidname
-    - sleep 3
-    - docker image rm "$uidimage"
-  artifacts:
-    paths:
-      - dist/
+  extends: .tpl:defaultalpinebuild
   variables:
-    uidimage: "staticbuild_${CI_JOB_ID}:latest"
-    uidname: "staticbuild_${CI_JOB_ID}"
+    containerfolder: busybox
 
 build:tcpdump:
   stage: build

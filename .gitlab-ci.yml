@@ -58,7 +58,7 @@ prepare:baseimages:
   stage: prepare
   extends: .tpl:matrixbuild
   script:
-    - src/base-alpine
+    - cd src/base-alpine
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker build -t "$OWNBASEIMAGE" --build-arg BASEIMAGE=$BASEIMAGE .
     - docker push "$OWNBASEIMAGE"

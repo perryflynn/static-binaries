@@ -102,6 +102,12 @@ build:iperf3:
   variables:
     containerfolder: iperf3
 
+build:dig:
+  stage: build
+  extends: .tpl:defaultalpinebuild
+  variables:
+    containerfolder: dig
+
 pack:pack:
   stage: pack
   extends: .tpl:stable

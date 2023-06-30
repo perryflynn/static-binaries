@@ -1,7 +1,6 @@
 stages:
   - prepare
   - build
-  - test
   - pack
 
 variables:
@@ -103,28 +102,13 @@ build:iperf3:
   variables:
     containerfolder: iperf3
 
-test:
-  stage: test
-  extends: .tpl:stable
-  image: "$alpine_base_image_own"
-  script:
-    - cd dist
-    - chmod a+x *
-    - |
-      while read name; do
-
-          echo "#-> $name"
-          ./$name --help
-          ./$name --version
-
-      done <<< "$(find . -type f | sort)"
-
 pack:pack:
   stage: pack
   extends: .tpl:stable
   image: "$alpine_base_image_own"
   script:
     - cd dist
+    # create info.txt
     - rm -f info.txt
     - |
       while read name; do
@@ -136,6 +120,7 @@ pack:pack:
 
           info=$(file $name)
 
+          echo "$name: $(cat ".version-$(basename "$name")")" >> info.txt
           echo "$info" >> info.txt
           echo "$md5" >> info.txt
           echo "$sha1" >> info.txt
@@ -146,6 +131,10 @@ pack:pack:
       done <<< "$(find . -type f | sort)"
     - cat info.txt
     - cd ..
+    # create all-in-one package
+    - cp -r dist serverless.industries-static-binaries
+    - tar cvzf dist/all.tar.gz serverless.industries-static-binaries
+    # upload
     - |
       lftp -d --norc <<EOF
       set ftp:ssl-force true

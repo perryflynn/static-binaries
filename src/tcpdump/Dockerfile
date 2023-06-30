@@ -22,3 +22,8 @@ RUN wget https://www.tcpdump.org/release/tcpdump-${tcpdumpversion}.tar.gz && \
     mkdir /dist && \
     mv tcpdump /dist/tcpdump.$ARCH && \
     strip /dist/tcpdump.$ARCH
+
+RUN chmod a+x /dist/tcpdump.$ARCH && \
+    /dist/tcpdump.$ARCH --version | tr '\n' ';' > /dist/.version-tcpdump.$ARCH && \
+    /dist/tcpdump.$ARCH --version && \
+    /dist/tcpdump.$ARCH --help

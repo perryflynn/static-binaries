@@ -15,3 +15,7 @@ RUN wget https://busybox.net/downloads/busybox-${busyboxversion}.tar.bz2 && \
     mkdir /dist && \
     mv busybox /dist/busybox.$ARCH && \
     strip /dist/busybox.$ARCH
+
+RUN chmod a+x /dist/busybox.$ARCH && \
+    /dist/busybox.$ARCH --help | head -n 1 > /dist/.version-busybox.$ARCH && \
+    /dist/busybox.$ARCH --help

@@ -6,13 +6,13 @@
 # docker run --rm -v $(pwd):/tmp -w /tmp -e ARCH=aarch64 multiarch/alpine:aarch64-latest-stable /tmp/build.sh
 # docker run --rm -v $(pwd):/tmp -w /tmp -e ARCH=ARCH_HERE ALPINE_IMAGE_HERE /tmp/build.sh
 
-env
-
 CURL_VERSION='8.1.2'
 
 [ "$1" != "" ] && CURL_VERSION="$1"
 
 set -exu
+
+apk add nghttp2-dev nghttp2-static libssh2-dev libssh2-static
 
 #apk add build-base clang openssl-dev nghttp2-dev nghttp2-static libssh2-dev libssh2-static
 #apk add openssl-libs-static zlib-static || true

@@ -81,8 +81,8 @@ pack:pack:
     - cd dist
     - rm -f info.txt
     - |
-      while read name
-      do
+      while read name; do
+
           md5=$(md5sum $name | awk '{print $2": md5sum: "$1}')
           sha1=$(sha1sum $name | awk '{print $2": sha1sum: "$1}')
           sha256=$(sha256sum $name | awk '{print $2": sha256sum: "$1}')
@@ -96,8 +96,8 @@ pack:pack:
           echo "$sha256" >> dist/info.txt
           echo "$sha512" >> dist/info.txt
           echo >> dist/info.txt
-      done \
-      <<< "$(find . -type f | sort)"
+
+      done <<< "$(find . -type f | sort)"
     - cat info.txt
     - cd ..
     - |

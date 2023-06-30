@@ -5,6 +5,7 @@ stages:
 
 variables:
   debian_base_image: $CI_REGISTRY_IMAGE/debian_base:latest
+  alpine_base_image: reg.git.brickburg.de/bbcontainers/hub/alpine:3
 
 .tpl:docker:
   image: reg.git.brickburg.de/bbcontainers/hub/docker:stable
@@ -22,7 +23,7 @@ variables:
   parallel:
     matrix:
       - ARCH: 'amd64'
-        BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/alpine:3
+        BASEIMAGE: "$alpine_base_image"
       - ARCH: 'aarch64'
         BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm64v8/alpine:3
       - ARCH: 'armv7'
@@ -74,8 +75,9 @@ build:vim:
 pack:pack:
   stage: pack
   extends: .tpl:stable
-  image: "$debian_base_image"
+  image: "$alpine_base_image"
   script:
+    - apk add file lftp
     - cd dist
     - rm -f info.txt
     - |
@@ -95,7 +97,7 @@ pack:pack:
           echo "$sha512" >> dist/info.txt
           echo >> dist/info.txt
       done \
-      <<< "$(find dist/ -type f ! -iname meta.txt | sort)"
+      <<< "$(find . -type f | sort)"
     - cat info.txt
     - cd ..
     - |

@@ -12,4 +12,5 @@ RUN wget https://sourceforge.net/projects/iperf2/files/iperf-${iperfversion}.tar
     ./configure --enable-static-bin && \
     make && \
     mkdir /dist && \
-    cp src/iperf /dist/iperf2.$ARCH
+    mv src/iperf /dist/iperf2.$ARCH && \
+    strip /dist/iperf2.$ARCH

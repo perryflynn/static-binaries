@@ -21,5 +21,4 @@ RUN wget https://ftp.nluug.nl/pub/vim/unix/vim-${packageversion}.tar.bz2 && \
     mkdir -p /dist /vim && \
     cp -r /usr/local/* /vim && \
     strip /vim/bin/vim && \
-    tar cvzf /dist/vim-${ARCH}.tar.gz /vim && \
-    ls -lisahRF /dist
+    tar cvzf /dist/vim-${ARCH}.tar.gz /vim

@@ -12,4 +12,5 @@ RUN wget https://downloads.es.net/pub/iperf/iperf-${iperfversion}.tar.gz && \
     ./configure --enable-static --enable-static-bin && \
     make && \
     mkdir /dist && \
-    cp src/iperf3 /dist/iperf3.$ARCH
+    mv src/iperf3 /dist/iperf3.$ARCH && \
+    strip /dist/iperf3.$ARCH

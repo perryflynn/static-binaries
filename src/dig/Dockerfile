@@ -7,7 +7,7 @@ ARG ARCH=amd64
 USER root
 RUN apk add --no-cache libuv-dev libuv-static
 
-USER guest
+USER builduser
 RUN id && wget https://downloads.isc.org/isc/bind9/${BIND9_VERSION}/bind-${BIND9_VERSION}.tar.xz && \
     tar xvf bind-${BIND9_VERSION}.tar.xz && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \

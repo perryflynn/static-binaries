@@ -7,9 +7,9 @@ COPY /root /
 
 USER root
 RUN apk add --no-cache nghttp2-dev nghttp2-static libssh2-dev libssh2-static && \
-    chown guest:users -R /src
+    chown builduser:builduser -R /src
 
-USER guest
+USER builduser
 RUN chmod a+x build.sh && ./build.sh
 
 RUN chmod a+x /dist/curl.$ARCH && \

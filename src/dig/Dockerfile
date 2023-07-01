@@ -22,6 +22,6 @@ RUN id && wget https://downloads.isc.org/isc/bind9/${BIND9_VERSION}/bind-${BIND9
     cp dig /dist/dig.$ARCH
 
 RUN chmod a+x /dist/dig.$ARCH && \
-    /dist/dig.$ARCH -v > /dist/.version-dig.$ARCH && \
-    /dist/dig.$ARCH -v && \
-    /dist/dig.$ARCH -h
+    /dist/dig.$ARCH -v > /dist/.version-dig.$ARCH 2>&1 && \
+    /dist/dig.$ARCH -v 2>&1 && \
+    /dist/dig.$ARCH -h 2>&1

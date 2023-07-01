@@ -7,5 +7,8 @@ RUN apk add --no-cache alpine-sdk linux-headers \
         openssl-libs-static zlib-static gnupg \
         flex bison lftp file bash xz
 
+RUN mkdir /src /dist && chown guest:users /src /dist
+
 WORKDIR /src
+USER guest
 SHELL [ "/bin/bash", "-c" ]

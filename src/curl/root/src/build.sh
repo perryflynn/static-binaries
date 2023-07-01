@@ -12,8 +12,6 @@ CURL_VERSION='8.1.2'
 
 set -exu
 
-apk add --no-cache nghttp2-dev nghttp2-static libssh2-dev libssh2-static
-
 #apk add build-base clang openssl-dev nghttp2-dev nghttp2-static libssh2-dev libssh2-static
 #apk add openssl-libs-static zlib-static || true
 
@@ -49,15 +47,8 @@ ARCH=$ARCH make -j4 V=1 LDFLAGS="-static -all-static"
 # binary is ~13M before stripping, 2.6M after
 strip src/curl
 
-# print out some info about this, size, and to ensure it's actually fully static
-echo "arch=$ARCH"
-ls -lah src/curl
-file src/curl
 # exit with error code 1 if the executable is dynamic, not static
 ldd src/curl && exit 1 || true
 
-./src/curl -V
-
 # we only want to save curl here
-mkdir -p /dist
 mv src/curl "/dist/curl.$ARCH"

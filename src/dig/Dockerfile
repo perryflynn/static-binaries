@@ -1,15 +1,11 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-WORKDIR /src
-
 ARG BIND9_VERSION=9.16.7
 ARG ARCH=amd64
 
 USER root
-RUN apk add --no-cache libuv-dev libuv-static && \
-    mkdir /dist && \
-    chown guest:users /src /dist
+RUN apk add --no-cache libuv-dev libuv-static
 
 USER guest
 RUN id && wget https://downloads.isc.org/isc/bind9/${BIND9_VERSION}/bind-${BIND9_VERSION}.tar.xz && \

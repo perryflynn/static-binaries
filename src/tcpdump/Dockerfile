@@ -1,8 +1,6 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-WORKDIR /src
-
 ARG tcpdumpversion=4.99.4
 ARG libpcapversion=1.10.4
 
@@ -19,7 +17,6 @@ RUN wget https://www.tcpdump.org/release/tcpdump-${tcpdumpversion}.tar.gz && \
     cd tcpdump-${tcpdumpversion} && \
     CFLAGS=-static ./configure --without-crypto && \
     make && \
-    mkdir /dist && \
     mv tcpdump /dist/tcpdump.$ARCH && \
     strip /dist/tcpdump.$ARCH
 

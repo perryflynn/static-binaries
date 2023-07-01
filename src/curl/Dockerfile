@@ -1,12 +1,14 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-WORKDIR /src
-
 ARG ARCH=amd64
 
 COPY /root /
 
+USER root
+RUN apk add --no-cache nghttp2-dev nghttp2-static libssh2-dev libssh2-static
+
+USER guest
 RUN chmod a+x build.sh && ./build.sh
 
 RUN chmod a+x /dist/curl.$ARCH && \

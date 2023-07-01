@@ -12,7 +12,6 @@ RUN wget https://busybox.net/downloads/busybox-${busyboxversion}.tar.bz2 && \
     ls -lisah && pwd && \
     make defconfig && \
     LDFLAGS="--static" make && \
-    mkdir /dist && \
     mv busybox /dist/busybox.$ARCH && \
     strip /dist/busybox.$ARCH
 

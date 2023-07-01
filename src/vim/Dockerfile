@@ -12,7 +12,8 @@ ARG packagedir=vim90
 RUN wget https://ftp.nluug.nl/pub/vim/unix/vim-${packageversion}.tar.bz2 && \
     tar xvf vim-${packageversion}.tar.bz2 && \
     cd ${packagedir} && \
-    LDFLAGS="-static" ./configure --prefix=/src/ --disable-channel --disable-gpm \
+    mkdir -p /tmp/vim && \
+    LDFLAGS="-static" ./configure --prefix=/tmp/vim/ --disable-channel --disable-gpm \
         --disable-gtktest --disable-gui --disable-netbeans --disable-nls \
         --disable-selinux --disable-smack --disable-sysmouse --disable-xsmp \
         --enable-multibyte --with-features=huge --without-x --with-tlib=ncursesw && \
@@ -20,7 +21,7 @@ RUN wget https://ftp.nluug.nl/pub/vim/unix/vim-${packageversion}.tar.bz2 && \
     make install && \
     cd .. && \
     mkdir -p vim && \
-    cp -r usr/local/* vim/ && \
+    cp -r /tmp/vim/* vim/ && \
     strip vim/bin/vim && \
     tar cvzf /dist/vim-${ARCH}.tar.gz vim
 

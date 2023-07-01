@@ -113,6 +113,7 @@ pack:pack:
   extends: .tpl:stable
   image: "$alpine_base_image_own"
   script:
+    - ls -lisah dist/
     # create all-in-one package
     - cp -r dist serverless.industries-static-binaries
     - tar cvzf dist/all.tar.gz serverless.industries-static-binaries

@@ -9,6 +9,8 @@ ARG packagedir=vim90
 
 # https://github.com/dtschan/vim-static/blob/master/build.sh
 
+USER builduser
+
 RUN wget https://ftp.nluug.nl/pub/vim/unix/vim-${packageversion}.tar.bz2 && \
     tar xvf vim-${packageversion}.tar.bz2 && \
     cd ${packagedir} && \

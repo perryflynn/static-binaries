@@ -6,6 +6,8 @@ ARG libpcapversion=1.10.4
 
 ARG ARCH=amd64
 
+USER builduser
+
 RUN wget https://www.tcpdump.org/release/libpcap-${libpcapversion}.tar.gz && \
     tar -xvf libpcap-${libpcapversion}.tar.gz && \
     cd libpcap-${libpcapversion} && \

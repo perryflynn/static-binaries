@@ -4,6 +4,8 @@ FROM ${BASEIMAGE}
 ARG iperfversion=2.1.9
 ARG ARCH=amd64
 
+USER builduser
+
 RUN wget https://sourceforge.net/projects/iperf2/files/iperf-${iperfversion}.tar.gz/download && \
     tar xvzf download && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \

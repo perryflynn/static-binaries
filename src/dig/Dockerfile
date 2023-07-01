@@ -23,7 +23,6 @@ RUN id && wget https://downloads.isc.org/isc/bind9/${BIND9_VERSION}/bind-${BIND9
     cd ../irs/ && make && \
     cd ../../bin/dig && make && \
     strip dig && \
-    mkdir /dist && \
     cp dig /dist/dig.$ARCH
 
 RUN chmod a+x /dist/dig.$ARCH && \

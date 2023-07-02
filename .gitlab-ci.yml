@@ -117,22 +117,18 @@ pack:pack:
     # create all-in-one package for x86
     - mkdir serverless.industries-static-binaries.x86
     - cp dist/*.x86 serverless.industries-static-binaries.x86
-    - rm serverless.industries-static-binaries.x86/.version*
     - tar cvzf dist/all.x86.tar.gz serverless.industries-static-binaries.x86
     # create all-in-one package for amd64
     - mkdir serverless.industries-static-binaries.amd64
     - cp dist/*.amd64 serverless.industries-static-binaries.amd64
-    - rm serverless.industries-static-binaries.amd64/.version*
     - tar cvzf dist/all.amd64.tar.gz serverless.industries-static-binaries.amd64
     # create all-in-one package for aarch64
     - mkdir serverless.industries-static-binaries.aarch64
     - cp dist/*.aarch64 serverless.industries-static-binaries.aarch64
-    - rm serverless.industries-static-binaries.aarch64/.version*
     - tar cvzf dist/all.aarch64.tar.gz serverless.industries-static-binaries.aarch64
     # create all-in-one package for armv7
     - mkdir serverless.industries-static-binaries.armv7
     - cp dist/*.armv7 serverless.industries-static-binaries.armv7
-    - rm serverless.industries-static-binaries.armv7/.version*
     - tar cvzf dist/all.armv7.tar.gz serverless.industries-static-binaries.armv7
     # create info.txt
     - cd dist

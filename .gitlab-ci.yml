@@ -164,6 +164,7 @@ pack:pack:
 
       done <<< "$(find . -type f ! -iname '.version-*' ! -iname '*.txt' | sort)"
     - cat info.txt
+    - rm .version*
     - cd ..
     # upload
     - |

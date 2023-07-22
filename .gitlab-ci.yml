@@ -108,6 +108,12 @@ build:dig:
   variables:
     containerfolder: dig
 
+build:jq:
+  stage: build
+  extends: .tpl:defaultalpinebuild
+  variables:
+    containerfolder: jq
+
 pack:pack:
   stage: pack
   extends: .tpl:stable

@@ -11,6 +11,7 @@ Download: [https://files.serverless.industries/bin/](https://files.serverless.in
 - dig 9.16.7
 - iperf2 2.1.9
 - iperf3 3.13
+- jq 1.6
 - tcpdump 4.99.4
 - vim 9.0
 

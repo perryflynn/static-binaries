@@ -5,7 +5,7 @@ ARG sshversion=9.5p1
 ARG ARCH=amd64
 ARG PARALLEL=4
 
-RUN apk apk add --no-cache libssh2-dev libssh2-static
+RUN apk add --no-cache libssh2-dev libssh2-static
 
 USER builduser
 

@@ -12,6 +12,7 @@ Download: [https://files.serverless.industries/bin/](https://files.serverless.in
 - iperf2 2.1.9
 - iperf3 3.13
 - jq 1.6
+- rsync 3.2.7
 - tcpdump 4.99.4
 - vim 9.0
 

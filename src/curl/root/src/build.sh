@@ -42,7 +42,7 @@ export CC=clang
 ARCH=$ARCH LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure --disable-shared \
     --enable-static --disable-ldap --enable-ipv6 --enable-unix-sockets --with-ssl --with-libssh2
 
-ARCH=$ARCH make -j4 V=1 LDFLAGS="-static -all-static"
+ARCH=$ARCH make -j${PARALLEL} V=1 LDFLAGS="-static -all-static"
 
 # binary is ~13M before stripping, 2.6M after
 strip src/curl

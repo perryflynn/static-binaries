@@ -7,6 +7,7 @@ stages:
 variables:
   alpine_base_image: "reg.git.brickburg.de/bbcontainers/hub/alpine:3"
   alpine_base_image_own: "$CI_REGISTRY_IMAGE/alpine_base_amd64:latest"
+  cpuparallel: 2
 
 .tpl:docker:
   image: reg.git.brickburg.de/bbcontainers/hub/docker:stable
@@ -43,7 +44,7 @@ variables:
     # build
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - cd src/$containerfolder
-    - docker build -t "$uidimage" --build-arg ARCH=$ARCH --build-arg BASEIMAGE=$OWNBASEIMAGE .
+    - docker build -t "$uidimage" --build-arg ARCH=$ARCH --build-arg BASEIMAGE=$OWNBASEIMAGE --build-arg PARALLEL=$cpuparallel .
     - cd ../../
     # extract binary
     - docker run -d --rm --name "$uidname" "$uidimage" /bin/sleep 300

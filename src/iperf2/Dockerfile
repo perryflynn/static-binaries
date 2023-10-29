@@ -3,6 +3,7 @@ FROM ${BASEIMAGE}
 
 ARG iperfversion=2.1.9
 ARG ARCH=amd64
+ARG PARALLEL=4
 
 USER builduser
 
@@ -10,7 +11,7 @@ RUN wget https://sourceforge.net/projects/iperf2/files/iperf-${iperfversion}.tar
     tar xvzf download && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
     ./configure --enable-static-bin && \
-    make && \
+    make -j${PARALLEL} && \
     mv src/iperf /dist/iperf2.$ARCH && \
     strip /dist/iperf2.$ARCH
 

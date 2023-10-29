@@ -33,6 +33,7 @@ FROM ${BASEIMAGE}
 ARG xxhashversion=0.8.2
 ARG rsyncversion=3.2.7
 ARG ARCH=amd64
+ARG PARALLEL=4
 
 RUN apk add --no-cache zstd-static lz4-static zstd-dev lz4-dev
 
@@ -41,7 +42,7 @@ USER builduser
 RUN wget https://github.com/Cyan4973/xxHash/archive/refs/tags/v${xxhashversion}.tar.gz && \
     tar xvzf v${xxhashversion}.tar.gz && \
     cd xxHash-${xxhashversion} && \
-    ( CFLAGS=-static make ) && \
+    ( CFLAGS=-static make -j${PARALLEL} ) && \
     cp libxxhash.* /usr/lib && \
     cp xxhash.* /usr/include
 
@@ -49,7 +50,7 @@ RUN wget https://download.samba.org/pub/rsync/src/rsync-${rsyncversion}.tar.gz &
     tar xvzf rsync-${rsyncversion}.tar.gz && \
     cd rsync-${rsyncversion} && \
     ./configure CFLAGS="-static" && \
-    make && \
+    make -j${PARALLEL} && \
     mv rsync /dist/rsync.$ARCH && \
     strip /dist/rsync.$ARCH
 

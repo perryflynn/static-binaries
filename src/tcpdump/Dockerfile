@@ -3,6 +3,7 @@ FROM ${BASEIMAGE}
 
 ARG tcpdumpversion=4.99.4
 ARG libpcapversion=1.10.4
+ARG PARALLEL=4
 
 ARG ARCH=amd64
 
@@ -18,7 +19,7 @@ RUN wget https://www.tcpdump.org/release/tcpdump-${tcpdumpversion}.tar.gz && \
     tar -xvf tcpdump-${tcpdumpversion}.tar.gz && \
     cd tcpdump-${tcpdumpversion} && \
     CFLAGS=-static ./configure --without-crypto && \
-    make && \
+    make -j${PARALLEL} && \
     mv tcpdump /dist/tcpdump.$ARCH && \
     strip /dist/tcpdump.$ARCH
 

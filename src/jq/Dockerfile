@@ -3,6 +3,7 @@ FROM ${BASEIMAGE}
 
 ARG jqversion=1.6
 ARG ARCH=amd64
+ARG PARALLEL=4
 
 RUN apk add --no-cache oniguruma oniguruma-dev
 
@@ -12,7 +13,7 @@ RUN wget https://github.com/jqlang/jq/releases/download/jq-${jqversion}/jq-${jqv
     tar xvzf jq-${jqversion}.tar.gz && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
     ./configure --with-oniguruma && \
-    make LDFLAGS=-all-static && \
+    make -j${PARALLEL} LDFLAGS=-all-static && \
     mv jq /dist/jq.$ARCH && \
     strip /dist/jq.$ARCH
 

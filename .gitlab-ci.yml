@@ -129,6 +129,12 @@ build:rsync:
   variables:
     containerfolder: rsync
 
+build:ssh:
+  stage: build
+  extends: .tpl:defaultalpinebuild
+  variables:
+    containerfolder: ssh
+
 pack:pack:
   stage: pack
   extends: .tpl:stable

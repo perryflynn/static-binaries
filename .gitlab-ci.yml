@@ -122,6 +122,12 @@ build:jq:
   variables:
     containerfolder: jq
 
+build:rsync:
+  stage: build
+  extends: .tpl:defaultalpinebuild
+  variables:
+    containerfolder: rsync
+
 pack:pack:
   stage: pack
   extends: .tpl:stable

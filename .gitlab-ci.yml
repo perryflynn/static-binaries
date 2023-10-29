@@ -7,7 +7,7 @@ stages:
 variables:
   alpine_base_image: "reg.git.brickburg.de/bbcontainers/hub/alpine:3"
   alpine_base_image_own: "$CI_REGISTRY_IMAGE/alpine_base_amd64:latest"
-  cpuparallel: 4
+  cpuparallel: 2
 
 .tpl:docker:
   image: reg.git.brickburg.de/bbcontainers/hub/docker:stable

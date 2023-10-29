@@ -4,7 +4,7 @@ FROM ${BASEIMAGE}
 ARG jqversion=1.6
 ARG ARCH=amd64
 
-RUN apk add oniguruma oniguruma-dev
+RUN apk add --no-cache oniguruma oniguruma-dev
 
 USER builduser
 

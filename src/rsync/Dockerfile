@@ -34,11 +34,9 @@ ARG xxhashversion=0.8.2
 ARG rsyncversion=3.2.7
 ARG ARCH=amd64
 
-RUN apk add oniguruma oniguruma-dev
+RUN apk add --no-cache zstd-static lz4-static zstd-dev lz4-dev
 
 USER builduser
-
-RUN apk add zstd-static lz4-static zstd-dev lz4-dev
 
 RUN wget https://github.com/Cyan4973/xxHash/archive/refs/tags/v${xxhashversion}.tar.gz && \
     tar xvzf v${xxhashversion}.tar.gz && \

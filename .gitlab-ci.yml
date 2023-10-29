@@ -160,23 +160,24 @@ pack:pack:
     - |
       while read name; do
 
-          md5=$(md5sum $name | awk '{print $2": md5sum: "$1}')
-          sha1=$(sha1sum $name | awk '{print $2": sha1sum: "$1}')
-          sha256=$(sha256sum $name | awk '{print $2": sha256sum: "$1}')
-          sha512=$(sha512sum $name | awk '{print $2": sha512sum: "$1}')
+          bname=$(basename "$name")
+          md5=$(md5sum $name | awk '{print $1}')
+          sha1=$(sha1sum $name | awk '{print $1}')
+          sha256=$(sha256sum $name | awk '{print $1}')
+          sha512=$(sha512sum $name | awk '{print $1}')
 
           info=$(file $name)
-          versionfile=".version-$(basename "$name")"
+          versionfile=".version-$bname"
 
           if [ -f "$versionfile" ]; then
-              echo "$name: $(cat "$versionfile")" >> info.txt
+              echo "$bname: version: $(cat "$versionfile")" >> info.txt
           fi
 
-          echo "$info" >> info.txt
-          echo "$md5" >> info.txt
-          echo "$sha1" >> info.txt
-          echo "$sha256" >> info.txt
-          echo "$sha512" >> info.txt
+          echo "$bname: file: $info" >> info.txt
+          echo "$bname: md5sum: $md5" >> info.txt
+          echo "$bname: sha1sum: $sha1" >> info.txt
+          echo "$bname: sha256sum: $sha256" >> info.txt
+          echo "$bname: sha512sum: $sha512" >> info.txt
           echo >> info.txt
 
       done <<< "$(find . -type f ! -iname '.version-*' ! -iname '*.txt' | sort)"

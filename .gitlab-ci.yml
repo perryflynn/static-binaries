@@ -10,7 +10,7 @@ variables:
   cpuparallel: 2
 
 .tpl:docker:
-  image: reg.git.brickburg.de/bbcontainers/hub/docker:stable
+  image: reg.git.brickburg.de/bbcontainers/hub/docker:bb-stable-buildx
   tags:
     - docker
     - gitrunner-einbeck01

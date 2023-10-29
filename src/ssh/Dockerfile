@@ -22,9 +22,9 @@ RUN wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${sshversi
     mv ssh-keyscan /dist/ssh-keyscan.$ARCH && strip /dist/ssh-keyscan.$ARCH
 
 RUN chmod a+x /dist/*.$ARCH && \
-    /dist/ssh.$ARCH -V > /dist/.version-scp.$ARCH && \
-    /dist/ssh.$ARCH -V > /dist/.version-sftp.$ARCH && \
-    /dist/ssh.$ARCH -V > /dist/.version-ssh.$ARCH && \
-    /dist/ssh.$ARCH -V > /dist/.version-ssh-keygen.$ARCH && \
-    /dist/ssh.$ARCH -V > /dist/.version-ssh-keyscan.$ARCH && \
-    /dist/ssh.$ARCH -V
+    /dist/ssh.$ARCH -V > /dist/.version-scp.$ARCH 2>&1 && \
+    /dist/ssh.$ARCH -V > /dist/.version-sftp.$ARCH 2>&1 && \
+    /dist/ssh.$ARCH -V > /dist/.version-ssh.$ARCH 2>&1 && \
+    /dist/ssh.$ARCH -V > /dist/.version-ssh-keygen.$ARCH 2>&1 && \
+    /dist/ssh.$ARCH -V > /dist/.version-ssh-keyscan.$ARCH 2>&1 && \
+    /dist/ssh.$ARCH -V 2>&1

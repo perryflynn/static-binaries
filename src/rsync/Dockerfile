@@ -42,7 +42,7 @@ USER builduser
 RUN wget https://github.com/Cyan4973/xxHash/archive/refs/tags/v${xxhashversion}.tar.gz && \
     tar xvzf v${xxhashversion}.tar.gz && \
     cd xxHash-${xxhashversion} && \
-    ( CFLAGS=-static make -j${PARALLEL} ) && \
+    CFLAGS="-static -fPIC" make -j${PARALLEL} && \
     cp libxxhash.* /usr/lib && \
     cp xxhash.* /usr/include
 

@@ -75,53 +75,53 @@ prepare:baseimages:
     - docker build -t "$OWNBASEIMAGE" --build-arg BASEIMAGE=$BASEIMAGE .
     - docker push "$OWNBASEIMAGE"
 
-build:busybox:
-  stage: build
-  extends: .tpl:defaultalpinebuild
-  variables:
-    containerfolder: busybox
+# build:busybox:
+#   stage: build
+#   extends: .tpl:defaultalpinebuild
+#   variables:
+#     containerfolder: busybox
 
-build:tcpdump:
-  stage: build
-  extends: .tpl:defaultalpinebuild
-  variables:
-    containerfolder: tcpdump
+# build:tcpdump:
+#   stage: build
+#   extends: .tpl:defaultalpinebuild
+#   variables:
+#     containerfolder: tcpdump
 
-build:curl:
-  stage: build
-  extends: .tpl:defaultalpinebuild
-  variables:
-    containerfolder: curl
+# build:curl:
+#   stage: build
+#   extends: .tpl:defaultalpinebuild
+#   variables:
+#     containerfolder: curl
 
-build:vim:
-  stage: build
-  extends: .tpl:defaultalpinebuild
-  variables:
-    containerfolder: vim
+# build:vim:
+#   stage: build
+#   extends: .tpl:defaultalpinebuild
+#   variables:
+#     containerfolder: vim
 
-build:iperf2:
-  stage: build
-  extends: .tpl:defaultalpinebuild
-  variables:
-    containerfolder: iperf2
+# build:iperf2:
+#   stage: build
+#   extends: .tpl:defaultalpinebuild
+#   variables:
+#     containerfolder: iperf2
 
-build:iperf3:
-  stage: build
-  extends: .tpl:defaultalpinebuild
-  variables:
-    containerfolder: iperf3
+# build:iperf3:
+#   stage: build
+#   extends: .tpl:defaultalpinebuild
+#   variables:
+#     containerfolder: iperf3
 
-build:dig:
-  stage: build
-  extends: .tpl:defaultalpinebuild
-  variables:
-    containerfolder: dig
+# build:dig:
+#   stage: build
+#   extends: .tpl:defaultalpinebuild
+#   variables:
+#     containerfolder: dig
 
-build:jq:
-  stage: build
-  extends: .tpl:defaultalpinebuild
-  variables:
-    containerfolder: jq
+# build:jq:
+#   stage: build
+#   extends: .tpl:defaultalpinebuild
+#   variables:
+#     containerfolder: jq
 
 build:rsync:
   stage: build
@@ -129,65 +129,65 @@ build:rsync:
   variables:
     containerfolder: rsync
 
-pack:pack:
-  stage: pack
-  extends: .tpl:stable
-  image: "$alpine_base_image_own"
-  script:
-    - ls -lisah dist/
-    # create all-in-one package for x86
-    - mkdir serverless.industries-static-binaries.x86
-    - cp dist/*.x86 serverless.industries-static-binaries.x86
-    - tar cvzf dist/all.x86.tar.gz serverless.industries-static-binaries.x86
-    # create all-in-one package for amd64
-    - mkdir serverless.industries-static-binaries.amd64
-    - cp dist/*.amd64 serverless.industries-static-binaries.amd64
-    - tar cvzf dist/all.amd64.tar.gz serverless.industries-static-binaries.amd64
-    # create all-in-one package for aarch64
-    - mkdir serverless.industries-static-binaries.aarch64
-    - cp dist/*.aarch64 serverless.industries-static-binaries.aarch64
-    - tar cvzf dist/all.aarch64.tar.gz serverless.industries-static-binaries.aarch64
-    # create all-in-one package for armv7
-    - mkdir serverless.industries-static-binaries.armv7
-    - cp dist/*.armv7 serverless.industries-static-binaries.armv7
-    - tar cvzf dist/all.armv7.tar.gz serverless.industries-static-binaries.armv7
-    # create info.txt
-    - cd dist
-    - rm -f info.txt
-    - echo "Static self-containing builds of some system utilities" >> info.txt
-    - echo "Build at the $(date) by Christian Blechert <christian@serverless.industries>" >> info.txt
-    - echo >> info.txt
-    - |
-      while read name; do
+# pack:pack:
+#   stage: pack
+#   extends: .tpl:stable
+#   image: "$alpine_base_image_own"
+#   script:
+#     - ls -lisah dist/
+#     # create all-in-one package for x86
+#     - mkdir serverless.industries-static-binaries.x86
+#     - cp dist/*.x86 serverless.industries-static-binaries.x86
+#     - tar cvzf dist/all.x86.tar.gz serverless.industries-static-binaries.x86
+#     # create all-in-one package for amd64
+#     - mkdir serverless.industries-static-binaries.amd64
+#     - cp dist/*.amd64 serverless.industries-static-binaries.amd64
+#     - tar cvzf dist/all.amd64.tar.gz serverless.industries-static-binaries.amd64
+#     # create all-in-one package for aarch64
+#     - mkdir serverless.industries-static-binaries.aarch64
+#     - cp dist/*.aarch64 serverless.industries-static-binaries.aarch64
+#     - tar cvzf dist/all.aarch64.tar.gz serverless.industries-static-binaries.aarch64
+#     # create all-in-one package for armv7
+#     - mkdir serverless.industries-static-binaries.armv7
+#     - cp dist/*.armv7 serverless.industries-static-binaries.armv7
+#     - tar cvzf dist/all.armv7.tar.gz serverless.industries-static-binaries.armv7
+#     # create info.txt
+#     - cd dist
+#     - rm -f info.txt
+#     - echo "Static self-containing builds of some system utilities" >> info.txt
+#     - echo "Build at the $(date) by Christian Blechert <christian@serverless.industries>" >> info.txt
+#     - echo >> info.txt
+#     - |
+#       while read name; do
 
-          md5=$(md5sum $name | awk '{print $2": md5sum: "$1}')
-          sha1=$(sha1sum $name | awk '{print $2": sha1sum: "$1}')
-          sha256=$(sha256sum $name | awk '{print $2": sha256sum: "$1}')
-          sha512=$(sha512sum $name | awk '{print $2": sha512sum: "$1}')
+#           md5=$(md5sum $name | awk '{print $2": md5sum: "$1}')
+#           sha1=$(sha1sum $name | awk '{print $2": sha1sum: "$1}')
+#           sha256=$(sha256sum $name | awk '{print $2": sha256sum: "$1}')
+#           sha512=$(sha512sum $name | awk '{print $2": sha512sum: "$1}')
 
-          info=$(file $name)
-          versionfile=".version-$(basename "$name")"
+#           info=$(file $name)
+#           versionfile=".version-$(basename "$name")"
 
-          if [ -f "$versionfile" ]; then
-              echo "$name: $(cat "$versionfile")" >> info.txt
-          fi
+#           if [ -f "$versionfile" ]; then
+#               echo "$name: $(cat "$versionfile")" >> info.txt
+#           fi
 
-          echo "$info" >> info.txt
-          echo "$md5" >> info.txt
-          echo "$sha1" >> info.txt
-          echo "$sha256" >> info.txt
-          echo "$sha512" >> info.txt
-          echo >> info.txt
+#           echo "$info" >> info.txt
+#           echo "$md5" >> info.txt
+#           echo "$sha1" >> info.txt
+#           echo "$sha256" >> info.txt
+#           echo "$sha512" >> info.txt
+#           echo >> info.txt
 
-      done <<< "$(find . -type f ! -iname '.version-*' ! -iname '*.txt' | sort)"
-    - cat info.txt
-    - rm .version*
-    - cd ..
-    # upload
-    - |
-      lftp -d --norc <<EOF
-      set ftp:ssl-force true
-      open -u ${FTP_USER},${FTP_PASSWORD} ftp://${FTP_HOST}
-      mirror --reverse --delete-first --delete dist/ $FTP_DIR
-      exit
-      EOF
+#       done <<< "$(find . -type f ! -iname '.version-*' ! -iname '*.txt' | sort)"
+#     - cat info.txt
+#     - rm .version*
+#     - cd ..
+#     # upload
+#     - |
+#       lftp -d --norc <<EOF
+#       set ftp:ssl-force true
+#       open -u ${FTP_USER},${FTP_PASSWORD} ftp://${FTP_HOST}
+#       mirror --reverse --delete-first --delete dist/ $FTP_DIR
+#       exit
+#       EOF

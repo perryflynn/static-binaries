@@ -135,6 +135,12 @@ build:ssh:
   variables:
     containerfolder: ssh
 
+build:htop:
+  stage: build
+  extends: .tpl:defaultalpinebuild
+  variables:
+    containerfolder: htop
+
 pack:pack:
   stage: pack
   extends: .tpl:stable

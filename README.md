@@ -9,6 +9,7 @@ Download: [https://files.serverless.industries/bin/](https://files.serverless.in
 - busybox 1.36.1
 - curl 8.1.2
 - dig 9.16.7
+- htop 3.2.2
 - iperf2 2.1.9
 - iperf3 3.13
 - jq 1.6

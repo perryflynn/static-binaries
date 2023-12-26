@@ -9,7 +9,7 @@ RUN apk add --no-cache ncurses-static ncurses-dev libcap-dev libcap-static lm-se
 
 USER builduser
 
-RUN https://github.com/htop-dev/htop/releases/download/${htopversion}/htop-${htopversion}.tar.xz && \
+RUN wget https://github.com/htop-dev/htop/releases/download/${htopversion}/htop-${htopversion}.tar.xz && \
     tar xvf htop-${htopversion}.tar.xz && \
     cd htop-${htopversion} && \
     ./configure --enable-static --enable-unicode --enable-affinity --enable-capabilities --enable-sensors && \

@@ -2,7 +2,7 @@ ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
 ARG xxhashversion=0.8.2
-ARG rsyncversion=3.2.7
+ARG rsyncversion=3.3.0
 ARG ARCH=amd64
 ARG PARALLEL=4
 

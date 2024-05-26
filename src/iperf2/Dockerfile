@@ -1,7 +1,7 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-ARG iperfversion=2.1.9
+ARG iperfversion=2.2.0
 ARG ARCH=amd64
 ARG PARALLEL=4
 

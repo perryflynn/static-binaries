@@ -1,7 +1,7 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-ARG htopversion=3.2.2
+ARG htopversion=3.3.0
 ARG ARCH=amd64
 ARG PARALLEL=4
 

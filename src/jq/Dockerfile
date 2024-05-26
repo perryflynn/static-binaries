@@ -1,7 +1,7 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-ARG jqversion=1.6
+ARG jqversion=1.7.1
 ARG ARCH=amd64
 ARG PARALLEL=4
 

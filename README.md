@@ -6,17 +6,21 @@ Download: [https://files.serverless.industries/bin/](https://files.serverless.in
 
 ## Tools
 
-- busybox 1.36.1
-- curl 8.1.2
-- dig 9.16.7
-- htop 3.2.2
-- iperf2 2.1.9
-- iperf3 3.13
-- jq 1.6
-- OpenSSH 9.5p1
-- rsync 3.2.7
-- tcpdump 4.99.4
-- vim 9.0
+Last checked for new versions: 2024-05-26
+
+| Name               | Version          | Release Date             | Releases |
+|--------------------|------------------|--------------------------|----------|
+| busybox            | 1.36.1           | 2023-05-18               | [Releases](https://busybox.net/downloads/) |
+| curl               | 8.8.0            | 2024-05-22               | [Releases](https://curl.se/download/) |
+| dig                | 9.19.24          | 2024-05-15               | [Releases](https://downloads.isc.org/isc/bind9/) |
+| htop               | 3.3.0            | 2024-01-10               | [Releases](https://github.com/htop-dev/htop/releases/) |
+| iperf2             | 2.2.0            | 2024-04-11               | [Releases](https://sourceforge.net/projects/iperf2/files/) |
+| iperf3             | 3.17.1           | 2024-05-13               | [Releases](https://downloads.es.net/pub/iperf/) |
+| jq                 | 1.7.1            | 2023-12-13               | [Releases](https://github.com/jqlang/jq/releases) |
+| rsync<br>xxHash    | 3.3.0<br>0.8.2   | 2024-04-06<br>2023-07-21 | [Releases](https://download.samba.org/pub/rsync/src/?C=M;O=D)<br>[Releases](https://github.com/Cyan4973/xxHash/tags) |
+| OpenSSH            | 9.7p1            | 2024-05-11               | [Releases](https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable) |
+| tcpdump<br>libpcap | 4.99.4<br>1.10.4 | 2023-04-07<br>2023-04-07 | [Releases](https://www.tcpdump.org/release) |
+| vim                | 9.0              | 2022-06-28               | [Releases](https://ftp.nluug.nl/pub/vim/unix/?C=M;O=D) |
 
 ## Supported Architectures
 

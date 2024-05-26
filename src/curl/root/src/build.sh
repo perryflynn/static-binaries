@@ -6,10 +6,6 @@
 # docker run --rm -v $(pwd):/tmp -w /tmp -e ARCH=aarch64 multiarch/alpine:aarch64-latest-stable /tmp/build.sh
 # docker run --rm -v $(pwd):/tmp -w /tmp -e ARCH=ARCH_HERE ALPINE_IMAGE_HERE /tmp/build.sh
 
-CURL_VERSION='8.1.2'
-
-[ "$1" != "" ] && CURL_VERSION="$1"
-
 set -exu
 
 #apk add build-base clang openssl-dev nghttp2-dev nghttp2-static libssh2-dev libssh2-static
@@ -21,8 +17,8 @@ then
     # for gpg verification of the curl download below
     #apk add gnupg
 
-    wget https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz \
-        https://curl.haxx.se/download/curl-${CURL_VERSION}.tar.gz.asc
+    wget https://curl.se/download/curl-${CURL_VERSION}.tar.gz \
+        https://curl.se/download/curl-${CURL_VERSION}.tar.gz.asc
 
     # convert mykey.asc to a .pgp file to use in verification
     gpg --no-default-keyring --yes -o ./curl.gpg --dearmor mykey.asc

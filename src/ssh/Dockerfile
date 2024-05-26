@@ -1,7 +1,7 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-ARG sshversion=9.5p1
+ARG sshversion=9.7p1
 ARG ARCH=amd64
 ARG PARALLEL=4
 

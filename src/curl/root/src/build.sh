@@ -14,16 +14,10 @@ set -exu
 if [ ! -f curl-${CURL_VERSION}.tar.gz ]
 then
 
-    # for gpg verification of the curl download below
-    #apk add gnupg
-
     wget https://curl.se/download/curl-${CURL_VERSION}.tar.gz \
         https://curl.se/download/curl-${CURL_VERSION}.tar.gz.asc
 
-    # convert mykey.asc to a .pgp file to use in verification
-    gpg --no-default-keyring --yes -o ./curl.gpg --dearmor mykey.asc
-    # this has a non-zero exit code if it fails, which will halt the script
-    gpg --no-default-keyring --keyring ./curl.gpg --verify curl-${CURL_VERSION}.tar.gz.asc
+    bbchecksig.sh "mykey.asc" "curl-${CURL_VERSION}.tar.gz.asc" "curl-${CURL_VERSION}.tar.gz"
 
 fi
 

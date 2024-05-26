@@ -9,7 +9,9 @@ ARG PARALLEL=4
 
 USER builduser
 
-RUN wget https://busybox.net/downloads/busybox-${busyboxversion}.tar.bz2 && \
+RUN wget https://busybox.net/downloads/busybox-${busyboxversion}.tar.bz2 \
+        https://busybox.net/downloads/busybox-${busyboxversion}.tar.bz2.sig && \
+    bbchecksig.sh "denis.asc" "busybox-${busyboxversion}.tar.bz2.sig" "busybox-${busyboxversion}.tar.bz2"
     tar xvf busybox-${busyboxversion}.tar.bz2 && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
     ls -lisah && pwd && \

@@ -4,6 +4,8 @@ FROM ${BASEIMAGE}
 ARG USERID=1000
 ARG USERNAME=builduser
 
+COPY /root /
+
 RUN apk add --no-cache alpine-sdk linux-headers \
         build-base clang openssl-dev linux-headers \
         gcc make musl-dev ncurses-static \

@@ -4,6 +4,7 @@ FROM ${BASEIMAGE}
 WORKDIR /src
 
 ARG busyboxversion=1.36.1
+ARG CHECKSUM=b8cc24c9574d809e7279c3be349795c5d5ceb6fdf19ca709f80cde50e47de314
 ARG ARCH=amd64
 ARG PARALLEL=4
 
@@ -14,6 +15,7 @@ USER builduser
 
 RUN wget https://busybox.net/downloads/busybox-${busyboxversion}.tar.bz2 \
         https://busybox.net/downloads/busybox-${busyboxversion}.tar.bz2.sig && \
+    echo "$CHECKSUM busybox-${busyboxversion}.tar.bz2" | sha256sum -c && \
     bbchecksig.sh "denis.asc" "busybox-${busyboxversion}.tar.bz2.sig" "busybox-${busyboxversion}.tar.bz2" && \
     tar xvf busybox-${busyboxversion}.tar.bz2 && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \

@@ -4,17 +4,19 @@ FROM ${BASEIMAGE}
 WORKDIR /src
 
 ARG ARCH=amd64
-ARG packageversion=9.0
+ARG packageversion=9.1.0446
 ARG packagedir=vim90
 ARG PARALLEL=4
+ARG CHECKSUM=445da3c193a311b53808cf9dcf1192f7c33c4d8ea68f486a68fea402b611abf2
 
 # https://github.com/dtschan/vim-static/blob/master/build.sh
 
 USER builduser
 
-RUN wget https://ftp.nluug.nl/pub/vim/unix/vim-${packageversion}.tar.bz2 && \
-    tar xvf vim-${packageversion}.tar.bz2 && \
-    cd ${packagedir} && \
+RUN wget https://github.com/vim/vim/archive/refs/tags/v${packageversion}.tar.gz && \
+    echo "$CHECKSUM v${packageversion}.tar.gz" | sha256sum -c && \
+    tar xvf v${packageversion}.tar.gz && \
+    cd vim-${packageversion} && \
     mkdir -p /tmp/vim && \
     LDFLAGS="-static" ./configure --prefix=/tmp/vim/ --disable-channel --disable-gpm \
         --disable-gtktest --disable-gui --disable-netbeans --disable-nls \

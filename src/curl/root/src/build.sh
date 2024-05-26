@@ -17,6 +17,7 @@ then
     wget https://curl.se/download/curl-${CURL_VERSION}.tar.gz \
         https://curl.se/download/curl-${CURL_VERSION}.tar.gz.asc
 
+    echo "$CHECKSUM curl-${CURL_VERSION}.tar.gz" | sha256sum -c
     bbchecksig.sh "mykey.asc" "curl-${CURL_VERSION}.tar.gz.asc" "curl-${CURL_VERSION}.tar.gz"
 
 fi

@@ -4,12 +4,19 @@ FROM ${BASEIMAGE}
 ARG sshversion=9.7p1
 ARG ARCH=amd64
 ARG PARALLEL=4
+ARG CHECKSUM=490426f766d82a2763fcacd8d83ea3d70798750c7bd2aff2e57dc5660f773ffd
 
 RUN apk add --no-cache libssh2-dev libssh2-static
 
+COPY root/ /
+RUN chown builduser:builduser /src
+
 USER builduser
 
-RUN wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${sshversion}.tar.gz && \
+RUN wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${sshversion}.tar.gz \
+        https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${sshversion}.tar.gz.asc && \
+    echo "$CHECKSUM openssh-${sshversion}.tar.gz" | sha256sum -c && \
+    bbchecksig.sh "RELEASE_KEY.asc" "openssh-${sshversion}.tar.gz.asc" "openssh-${sshversion}.tar.gz" && \
     tar xvzf openssh-${sshversion}.tar.gz && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
     autoreconf && \

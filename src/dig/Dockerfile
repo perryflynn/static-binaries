@@ -4,6 +4,7 @@ FROM ${BASEIMAGE}
 ARG BIND9_VERSION=9.16.50
 ARG ARCH=amd64
 ARG PARALLEL=4
+ARG CHECKSUM=816dbaa3c115019f30fcebd9e8ef8f7637f4adde91c79daa099b035255a15795
 
 USER root
 RUN apk add --no-cache libuv-dev libuv-static \
@@ -12,8 +13,14 @@ RUN apk add --no-cache libuv-dev libuv-static \
         libcap-dev libcap2 libcap libcap-static \
         jemalloc jemalloc-dev jemalloc-static
 
+COPY root/ /
+RUN chown builduser:builduser /src
+
 USER builduser
-RUN wget https://downloads.isc.org/isc/bind9/${BIND9_VERSION}/bind-${BIND9_VERSION}.tar.xz && \
+RUN wget https://downloads.isc.org/isc/bind9/${BIND9_VERSION}/bind-${BIND9_VERSION}.tar.xz \
+        https://downloads.isc.org/isc/bind9/${BIND9_VERSION}/bind-${BIND9_VERSION}.tar.xz.asc && \
+    echo "$CHECKSUM bind-${BIND9_VERSION}.tar.xz" | sha256sum -c && \
+    bbchecksig.sh "isc-keyblock.asc" "bind-${BIND9_VERSION}.tar.xz.asc" "bind-${BIND9_VERSION}.tar.xz" && \
     tar xvf bind-${BIND9_VERSION}.tar.xz && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
     CFLAGS="-static -O2" ./configure --without-python --disable-symtable --disable-backtrace --disable-linux-caps && \

@@ -10,7 +10,7 @@ Last checked for new versions: 2024-05-26
 
 | Verify | Name               | Version          | Release Date             | Releases |
 |---|--------------------|------------------|--------------------------|----------|
-| sha256+gpg | busybox | 1.36.1  | 2023-05-18 | [Releases](https://busybox.net/downloads/) |
+| sha256+gpg | busybox | 1.37.0  | 2024-09-26 | [Releases](https://busybox.net/downloads/) |
 | sha256+gpg | curl    | 8.8.0   | 2024-05-22 | [Releases](https://curl.se/download/) |
 | sha256+gpg | dig + nsupdate | 9.16.50 | 2024-04-17 | [Releases](https://downloads.isc.org/isc/bind9/) |
 | sha256     | htop    | 3.3.0   | 2024-01-10 | [Releases](https://github.com/htop-dev/htop/releases/) |

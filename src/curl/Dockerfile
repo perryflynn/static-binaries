@@ -3,13 +3,20 @@ FROM ${BASEIMAGE}
 
 ARG ARCH=amd64
 ARG PARALLEL=4
-ARG CURL_VERSION=8.8.0
-ARG CHECKSUM=77c0e1cd35ab5b45b659645a93b46d660224d0024f1185e8a95cdb27ae3d787d
+ARG CURL_VERSION=8.11.1
+ARG CHECKSUM=a889ac9dbba3644271bd9d1302b5c22a088893719b72be3487bc3d401e5c4e80
 
 COPY /root /
 
 USER root
-RUN apk add --no-cache nghttp2-dev nghttp2-static libssh2-dev libssh2-static && \
+RUN apk add --no-cache \
+        libidn2-dev libidn2-static \
+        libpsl-dev libpsl-static \
+        nghttp2-dev nghttp2-static \
+        openssl-dev \
+        gnu-libiconv-dev \
+        zlib-dev zlib-static \
+        zstd-dev zstd-static && \
     chown builduser:builduser -R /src
 
 USER builduser

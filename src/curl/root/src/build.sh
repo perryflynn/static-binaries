@@ -30,8 +30,20 @@ cd curl-${CURL_VERSION}/
 # gcc is apparantly incapable of building a static binary, even gcc -static helloworld.c ends up linked to libc, instead of solving, use clang
 export CC=clang
 
-ARCH=$ARCH LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure --disable-shared \
-    --enable-static --disable-ldap --enable-ipv6 --enable-unix-sockets --with-ssl --with-libssh2
+ARCH=$ARCH LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure --disable-shared --enable-static \
+    --with-openssl \
+    --with-zlib \
+    --with-zstd \
+    --enable-ipv6 \
+    --enable-unix-sockets \
+    --without-libidn2 \
+    --with-nghttp2 \
+    --with-pic \
+    --enable-websockets \
+    --without-libssh2 \
+    --without-libpsl \
+    --disable-ldap \
+    --disable-brotli
 
 ARCH=$ARCH make -j${PARALLEL} V=1 LDFLAGS="-static -all-static"
 

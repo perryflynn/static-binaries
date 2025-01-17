@@ -93,12 +93,6 @@ build:curl:
   variables:
     containerfolder: curl
 
-build:vim:
-  stage: build
-  extends: .tpl:defaultalpinebuild
-  variables:
-    containerfolder: vim
-
 build:iperf2:
   stage: build
   extends: .tpl:defaultalpinebuild

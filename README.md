@@ -20,7 +20,6 @@ Last checked for new versions: 2024-05-26
 | ✅ | sha256+gpg<br>sha256 | rsync<br>xxHash    | 3.4.1<br>0.8.3   | 2025-01-15<br>2024-12-29 | [Releases](https://download.samba.org/pub/rsync/src/?C=M;O=D)<br>[Releases](https://github.com/Cyan4973/xxHash/tags) |
 | ✅ | sha256+gpg | OpenSSH | 9.9p1 | 2024-09-19 | [Releases](https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable) |
 | ✅ | sha256+gpg<br>sha256+gpg | tcpdump<br>libpcap | 4.99.5<br>1.10.5 | 2024-08-30<br>2024-08-30 | [Releases](https://www.tcpdump.org/release) |
-|  | sha256 | vim | 9.0 | 2024-05-26 | [Releases](https://github.com/vim/vim/tags) |
 
 ### Known Issues
 

@@ -1,12 +1,12 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-ARG tcpdumpversion=4.99.4
-ARG libpcapversion=1.10.4
+ARG tcpdumpversion=4.99.5
+ARG libpcapversion=1.10.5
 ARG PARALLEL=4
 ARG ARCH=amd64
-ARG tcpdumpchecksum=93c46aafd8946c47136275a22dfdc9b5ca1c5c5018995b6ab8505f7006ac5ffc
-ARG libpcapchecksum=ce62241f0dea7c8130df7b80d6b0ccb7b3f084a32fc891dffc01bf61b75cbb86
+ARG tcpdumpchecksum=d76395ab82d659d526291b013eee200201380930793531515abfc6e77b4f2ee5
+ARG libpcapchecksum=84fa89ac6d303028c1c5b754abff77224f45eca0a94eb1a34ff0aa9ceece3925
 
 COPY root/ /
 RUN chown builduser:builduser /src

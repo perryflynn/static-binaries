@@ -1,12 +1,12 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-ARG sshversion=9.7p1
+ARG sshversion=9.9p1
 ARG ARCH=amd64
 ARG PARALLEL=4
-ARG CHECKSUM=490426f766d82a2763fcacd8d83ea3d70798750c7bd2aff2e57dc5660f773ffd
+ARG CHECKSUM=b343fbcdbff87f15b1986e6e15d6d4fc9a7d36066be6b7fb507087ba8f966c02
 
-RUN apk add --no-cache libssh2-dev libssh2-static
+RUN apk add --no-cache zlib-dev zlib-static
 
 COPY root/ /
 RUN chown builduser:builduser /src

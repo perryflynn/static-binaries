@@ -18,7 +18,7 @@ Last checked for new versions: 2024-05-26
 | ✅ | sha256     | iperf3  | 3.18.0  | 2024-12-14 | [Releases](https://github.com/esnet/iperf) |
 | ✅ | sha256     | jq      | 1.7.1   | 2023-12-13 | [Releases](https://github.com/jqlang/jq/releases) |
 | ✅ | sha256+gpg<br>sha256 | rsync<br>xxHash    | 3.4.1<br>0.8.3   | 2025-01-15<br>2024-12-29 | [Releases](https://download.samba.org/pub/rsync/src/?C=M;O=D)<br>[Releases](https://github.com/Cyan4973/xxHash/tags) |
-|  | sha256+gpg | OpenSSH | 9.7p1 | 2024-05-11 | [Releases](https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable) |
+| ✅ | sha256+gpg | OpenSSH | 9.9p1 | 2024-09-19 | [Releases](https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable) |
 |  | sha256+gpg<br>sha256+gpg | tcpdump<br>libpcap | 4.99.4<br>1.10.4 | 2023-04-07<br>2023-04-07 | [Releases](https://www.tcpdump.org/release) |
 |  | sha256 | vim | 9.0 | 2024-05-26 | [Releases](https://github.com/vim/vim/tags) |
 

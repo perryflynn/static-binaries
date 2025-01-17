@@ -1,12 +1,12 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-ARG xxhashversion=0.8.2
-ARG rsyncversion=3.3.0
+ARG xxhashversion=0.8.3
+ARG rsyncversion=3.4.1
 ARG ARCH=amd64
 ARG PARALLEL=4
-ARG xxhashchecksum=baee0c6afd4f03165de7a4e67988d16f0f2b257b51d0e3cb91909302a26a79c4
-ARG rsyncchecksum=7399e9a6708c32d678a72a63219e96f23be0be2336e50fd1348498d07041df90
+ARG xxhashchecksum=aae608dfe8213dfd05d909a57718ef82f30722c392344583d3f39050c7f29a80
+ARG rsyncchecksum=2924bcb3a1ed8b551fc101f740b9f0fe0a202b115027647cf69850d65fd88c52
 
 RUN apk add --no-cache zstd-static lz4-static zstd-dev lz4-dev
 
@@ -32,7 +32,7 @@ USER builduser
 RUN wget https://download.samba.org/pub/rsync/src/rsync-${rsyncversion}.tar.gz \
         https://download.samba.org/pub/rsync/src/rsync-${rsyncversion}.tar.gz.asc && \
     echo "$rsyncchecksum rsync-${rsyncversion}.tar.gz" | sha256sum -c && \
-    bbchecksig.sh "wayne.asc" "rsync-${rsyncversion}.tar.gz.asc" "rsync-${rsyncversion}.tar.gz" && \
+    bbchecksig.sh "tridge.asc" "rsync-${rsyncversion}.tar.gz.asc" "rsync-${rsyncversion}.tar.gz" && \
     tar xvzf rsync-${rsyncversion}.tar.gz && \
     cd rsync-${rsyncversion} && \
     ./configure CFLAGS="-static" && \

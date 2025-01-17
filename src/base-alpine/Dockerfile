@@ -1,4 +1,4 @@
-ARG BASEIMAGE
+ARG BASEIMAGE=alpine:3
 FROM ${BASEIMAGE}
 
 ARG USERID=1000
@@ -8,7 +8,7 @@ RUN apk add --no-cache alpine-sdk linux-headers \
         build-base clang openssl-dev linux-headers \
         gcc make musl-dev ncurses-static \
         openssl-libs-static zlib-static gnupg \
-        flex bison lftp file bash xz autoconf automake
+        flex bison lftp file bash xz autoconf automake tini
 
 COPY /root /
 
@@ -19,4 +19,5 @@ RUN addgroup -g ${USERID} -S ${USERNAME} && \
     echo -n "${USERNAME}}" > /.username
 
 WORKDIR /src
+ENTRYPOINT [ "/sbin/tini", "--" ]
 SHELL [ "/bin/bash", "-c" ]

@@ -6,7 +6,9 @@ Download: [https://files.serverless.industries/bin/](https://files.serverless.in
 
 ## Tools
 
-Last checked for new versions: 2024-05-26
+Last checked for new versions: 2025-01-18
+
+⚠ arm64v8 and arm32v7 are disabled for now because of issues with docker-multiarch-qemu stuff: `gcc: internal compiler error: Segmentation fault signal terminated program cc1` ⚠
 
 | ✅ | Verify | Name               | Version          | Release Date             | Releases |
 |----|---|--------------------|------------------|--------------------------|----------|

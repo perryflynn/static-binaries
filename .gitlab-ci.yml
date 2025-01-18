@@ -32,14 +32,14 @@ variables:
         DOCKERPLATFORM: linux/amd64
         BASEIMAGE: "$alpine_base_image"
         OWNBASEIMAGE: "$alpine_base_image_own"
-      - ARCH: 'aarch64'
-        DOCKERPLATFORM: linux/arm64/v8
-        BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm64v8/alpine:3
-        OWNBASEIMAGE: "$CI_REGISTRY_IMAGE/alpine_base_aarch64:latest"
-      - ARCH: 'armv7'
-        DOCKERPLATFORM: linux/arm/v7
-        BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm32v7/alpine:3
-        OWNBASEIMAGE: "$CI_REGISTRY_IMAGE/alpine_base_armv7:latest"
+      # - ARCH: 'aarch64'
+      #   DOCKERPLATFORM: linux/arm64/v8
+      #   BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm64v8/alpine:3
+      #   OWNBASEIMAGE: "$CI_REGISTRY_IMAGE/alpine_base_aarch64:latest"
+      # - ARCH: 'armv7'
+      #   DOCKERPLATFORM: linux/arm/v7
+      #   BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm32v7/alpine:3
+      #   OWNBASEIMAGE: "$CI_REGISTRY_IMAGE/alpine_base_armv7:latest"
 
 .tpl:defaultalpinebuild:
   stage: build
@@ -69,7 +69,7 @@ multiarch:enable:
   extends: .tpl:stable
   script:
     #- docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-    - docker run --rm --privileged multiarch/qemu-user-static --reset -p yes -c yes
+    - docker run --rm --privileged multiarch/qemu-user-static:latest --reset -p yes -c yes
 
 prepare:baseimages:
   stage: prepare

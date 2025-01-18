@@ -19,10 +19,6 @@ variables:
   extends: .tpl:docker
   only:
     - master
-  rules:
-    - changes:
-        - README.md
-      when: never
 
 .tpl:matrixbuild:
   extends: .tpl:stable

@@ -25,6 +25,7 @@ Last checked for new versions: 2025-01-18
 
 ### Known Issues
 
+- arm64v8 and arm32v7 are broken and disabled and unavailable for now
 - dig: [Starting from 9.18 static builds are unsupported](https://kb.isc.org/docs/changes-to-be-aware-of-when-moving-from-bind-916-to-918)
 - curl: libpsl and libidn2 cannot be found in `./configure` phase, so disabled for now
 - iperf2: build for 2.2.1 broken, not motivated to [add patch manually](https://sourceforge.net/p/iperf2/tickets/342/)

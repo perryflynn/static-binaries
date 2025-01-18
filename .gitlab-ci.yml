@@ -19,6 +19,10 @@ variables:
   extends: .tpl:docker
   only:
     - master
+  rules:
+    - changes:
+        - README.md
+      when: never
 
 .tpl:matrixbuild:
   extends: .tpl:stable
@@ -154,14 +158,14 @@ pack:pack:
     - mkdir serverless.industries-static-binaries.amd64
     - cp dist/*.amd64 serverless.industries-static-binaries.amd64
     - tar cvzf dist/all.amd64.tar.gz serverless.industries-static-binaries.amd64
-    # create all-in-one package for aarch64
-    - mkdir serverless.industries-static-binaries.aarch64
-    - cp dist/*.aarch64 serverless.industries-static-binaries.aarch64
-    - tar cvzf dist/all.aarch64.tar.gz serverless.industries-static-binaries.aarch64
-    # create all-in-one package for armv7
-    - mkdir serverless.industries-static-binaries.armv7
-    - cp dist/*.armv7 serverless.industries-static-binaries.armv7
-    - tar cvzf dist/all.armv7.tar.gz serverless.industries-static-binaries.armv7
+    # # create all-in-one package for aarch64
+    # - mkdir serverless.industries-static-binaries.aarch64
+    # - cp dist/*.aarch64 serverless.industries-static-binaries.aarch64
+    # - tar cvzf dist/all.aarch64.tar.gz serverless.industries-static-binaries.aarch64
+    # # create all-in-one package for armv7
+    # - mkdir serverless.industries-static-binaries.armv7
+    # - cp dist/*.armv7 serverless.industries-static-binaries.armv7
+    # - tar cvzf dist/all.armv7.tar.gz serverless.industries-static-binaries.armv7
     # create info.txt
     - cd dist
     - rm -f info.txt

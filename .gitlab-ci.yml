@@ -140,6 +140,12 @@ build:htop:
   variables:
     containerfolder: htop
 
+build:smartctl:
+  stage: build
+  extends: .tpl:defaultalpinebuild
+  variables:
+    containerfolder: smartctl
+
 pack:pack:
   stage: pack
   extends: .tpl:stable

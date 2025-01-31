@@ -6,7 +6,7 @@ Download: [https://files.serverless.industries/bin/](https://files.serverless.in
 
 ## Tools
 
-Last checked for new versions: 2025-01-18
+Last checked for new versions: 2025-01-31
 
 ⚠ arm64v8 and arm32v7 are disabled for now because of issues with docker-multiarch-qemu stuff: `gcc: internal compiler error: Segmentation fault signal terminated program cc1` ⚠
 
@@ -20,6 +20,7 @@ Last checked for new versions: 2025-01-18
 | ✅ | sha256     | iperf3  | 3.18.0  | 2024-12-14 | [Releases](https://github.com/esnet/iperf) |
 | ✅ | sha256     | jq      | 1.7.1   | 2023-12-13 | [Releases](https://github.com/jqlang/jq/releases) |
 | ✅ | sha256+gpg<br>sha256 | rsync<br>xxHash    | 3.4.1<br>0.8.3   | 2025-01-15<br>2024-12-29 | [Releases](https://download.samba.org/pub/rsync/src/?C=M;O=D)<br>[Releases](https://github.com/Cyan4973/xxHash/tags) |
+| ✅ | sha256+gpg | smartctl | 7.3 | 2023-08-01 | [Releases](https://www.smartmontools.org/wiki/Download) |
 | ✅ | sha256+gpg | OpenSSH | 9.9p1 | 2024-09-19 | [Releases](https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable) |
 | ✅ | sha256+gpg<br>sha256+gpg | tcpdump<br>libpcap | 4.99.5<br>1.10.5 | 2024-08-30<br>2024-08-30 | [Releases](https://www.tcpdump.org/release) |
 

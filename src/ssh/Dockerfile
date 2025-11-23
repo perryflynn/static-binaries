@@ -1,10 +1,10 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-ARG sshversion=9.9p1
+ARG sshversion=10.2p1
 ARG ARCH=amd64
 ARG PARALLEL=4
-ARG CHECKSUM=b343fbcdbff87f15b1986e6e15d6d4fc9a7d36066be6b7fb507087ba8f966c02
+ARG CHECKSUM=ccc42c0419937959263fa1dbd16dafc18c56b984c03562d2937ce56a60f798b2
 
 RUN apk add --no-cache zlib-dev zlib-static
 
@@ -15,6 +15,7 @@ USER builduser
 
 RUN wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${sshversion}.tar.gz \
         https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${sshversion}.tar.gz.asc && \
+    echo -n "Checksum of downloaded file: " && sha256sum "openssh-${sshversion}.tar.gz" && \
     echo "$CHECKSUM openssh-${sshversion}.tar.gz" | sha256sum -c && \
     bbchecksig.sh "RELEASE_KEY.asc" "openssh-${sshversion}.tar.gz.asc" "openssh-${sshversion}.tar.gz" && \
     tar xvzf openssh-${sshversion}.tar.gz && \

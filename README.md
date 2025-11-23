@@ -6,22 +6,22 @@ Download: [https://files.serverless.industries/bin/](https://files.serverless.in
 
 ## Tools
 
-Last checked for new versions: 2025-01-31
+Last checked for new versions: 2025-11-23
 
 ⚠ arm64v8 and arm32v7 are disabled for now because of issues with docker-multiarch-qemu stuff: `gcc: internal compiler error: Segmentation fault signal terminated program cc1` ⚠
 
 | ✅ | Verify | Name               | Version          | Release Date             | Releases |
 |----|---|--------------------|------------------|--------------------------|----------|
 | ✅ | sha256+gpg | busybox | 1.37.0  | 2024-09-26 | [Releases](https://busybox.net/downloads/) |
-| ✅ | sha256+gpg | curl    | 8.11.1  | 2024-12-11 | [Releases](https://curl.se/download/) |
-|  | sha256+gpg | dig + nsupdate | 9.16.50 | 2024-04-17 | [Releases](https://downloads.isc.org/isc/bind9/) |
-| ✅ | sha256     | htop    | 3.3.0   | 2024-01-10 | [Releases](https://github.com/htop-dev/htop/releases/) |
-|  | sha256     | iperf2  | 2.2.0   | 2024-04-11 | [Releases](https://sourceforge.net/projects/iperf2/files/) |
-| ✅ | sha256     | iperf3  | 3.18.0  | 2024-12-14 | [Releases](https://github.com/esnet/iperf) |
-| ✅ | sha256     | jq      | 1.7.1   | 2023-12-13 | [Releases](https://github.com/jqlang/jq/releases) |
+| ✅ | sha256+gpg | curl    | 8.17.0  | 2025-11-05 | [Releases](https://curl.se/download/) |
+| 🗿 | sha256+gpg | dig + nsupdate | 9.16.50 | 2024-04-17 | [Releases](https://downloads.isc.org/isc/bind9/) |
+| ✅ | sha256     | htop    | 3.4.1   | 2024-04-11 | [Releases](https://github.com/htop-dev/htop/releases/) |
+| ✅ | sha256     | iperf2  | 2.2.1   | 2024-11-06 | [Releases](https://sourceforge.net/projects/iperf2/files/) |
+| ✅ | sha256     | iperf3  | 3.20.0  | 2025-11-14 | [Releases](https://github.com/esnet/iperf) |
+| ✅ | sha256     | jq      | 1.8.1   | 2025-07-01 | [Releases](https://github.com/jqlang/jq/releases) |
 | ✅ | sha256+gpg<br>sha256 | rsync<br>xxHash    | 3.4.1<br>0.8.3   | 2025-01-15<br>2024-12-29 | [Releases](https://download.samba.org/pub/rsync/src/?C=M;O=D)<br>[Releases](https://github.com/Cyan4973/xxHash/tags) |
-| ✅ | sha256+gpg | smartctl | 7.4 | 2023-08-01 | [Releases](https://www.smartmontools.org/wiki/Download) |
-| ✅ | sha256+gpg | OpenSSH | 9.9p1 | 2024-09-19 | [Releases](https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable) |
+| ✅ | sha256+gpg | smartctl | 7.5 | 2025-04-30 | [Releases](https://www.smartmontools.org/wiki/Download) |
+| ✅ | sha256+gpg | OpenSSH | 10.2p1 | 2025-10-10 | [Releases](https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable) |
 | ✅ | sha256+gpg<br>sha256+gpg | tcpdump<br>libpcap | 4.99.5<br>1.10.5 | 2024-08-30<br>2024-08-30 | [Releases](https://www.tcpdump.org/release) |
 
 ### Known Issues

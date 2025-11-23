@@ -1,14 +1,15 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-ARG iperfversion=3.18
+ARG iperfversion=3.20
 ARG ARCH=amd64
 ARG PARALLEL=4
-ARG CHECKSUM=c0618175514331e766522500e20c94bfb293b4424eb27d7207fb427b88d20bab
+ARG CHECKSUM=3acc572d1ecca4e0b20359c7bf0132ddc80d982efeee20c86f6726a9a6094388
 
 USER builduser
 
 RUN wget https://github.com/esnet/iperf/releases/download/${iperfversion}/iperf-${iperfversion}.tar.gz && \
+    echo -n "Checksum of downloaded file: " && sha256sum "iperf-${iperfversion}.tar.gz" && \
     echo "$CHECKSUM iperf-${iperfversion}.tar.gz" | sha256sum -c && \
     tar xvzf iperf-${iperfversion}.tar.gz && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \

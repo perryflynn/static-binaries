@@ -1,10 +1,10 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-ARG jqversion=1.7.1
+ARG jqversion=1.8.1
 ARG ARCH=amd64
 ARG PARALLEL=4
-ARG CHECKSUM=478c9ca129fd2e3443fe27314b455e211e0d8c60bc8ff7df703873deeee580c2
+ARG CHECKSUM=2be64e7129cecb11d5906290eba10af694fb9e3e7f9fc208a311dc33ca837eb0
 
 RUN apk add --no-cache oniguruma oniguruma-dev
 

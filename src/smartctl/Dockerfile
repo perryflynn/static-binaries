@@ -1,10 +1,10 @@
 ARG BASEIMAGE
 FROM ${BASEIMAGE}
 
-ARG smartmontoolsversion=7.4
+ARG smartmontoolsversion=7.5
 ARG ARCH=amd64
 ARG PARALLEL=4
-ARG smartmontoolschecksum=e9a61f641ff96ca95319edfb17948cd297d0cd3342736b2c49c99d4716fb993d
+ARG smartmontoolschecksum=690b83ca331378da9ea0d9d61008c4b22dde391387b9bbad7f29387f2595f76e
 
 RUN apk add --no-cache zstd-static lz4-static zstd-dev lz4-dev
 
@@ -15,6 +15,7 @@ USER builduser
 
 RUN wget -O smartmontools-${smartmontoolsversion}.tar.gz https://sourceforge.net/projects/smartmontools/files/smartmontools/${smartmontoolsversion}/smartmontools-${smartmontoolsversion}.tar.gz/download && \
     wget -O smartmontools-${smartmontoolsversion}.tar.gz.asc https://sourceforge.net/projects/smartmontools/files/smartmontools/${smartmontoolsversion}/smartmontools-${smartmontoolsversion}.tar.gz.asc/download && \
+    echo -n "Checksum of downloaded file: " && sha256sum "smartmontools-${smartmontoolsversion}.tar.gz" && \
     echo "$smartmontoolschecksum smartmontools-${smartmontoolsversion}.tar.gz" | sha256sum -c && \
     bbchecksig.sh "smartmontools.asc" "smartmontools-${smartmontoolsversion}.tar.gz.asc" "smartmontools-${smartmontoolsversion}.tar.gz" && \
     tar xvzf smartmontools-${smartmontoolsversion}.tar.gz && \

@@ -33,9 +33,14 @@ cd "$(dirname "$0")"
 # cleanup
 #docker system prune -a -f
 
+docker pull $BASEIMAGE
+
 # enable qemu support
-#docker run --rm --privileged multiarch/qemu-user-static:latest --reset -p yes -c yes
-#docker run --privileged --rm tonistiigi/binfmt --install all
+if [ ! "$ARCH" == "amd64" ]; then
+    docker pull multiarch/qemu-user-static:latest
+    docker run --rm --privileged multiarch/qemu-user-static:latest --reset -p yes -c yes
+    #docker run --privileged --rm tonistiigi/binfmt --install all
+fi
 
 # build base
 cd src/base-alpine

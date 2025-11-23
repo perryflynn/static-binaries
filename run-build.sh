@@ -37,9 +37,9 @@ docker pull $BASEIMAGE
 
 # enable qemu support
 if [ ! "$ARCH" == "amd64" ]; then
-    docker pull multiarch/qemu-user-static:latest
-    docker run --rm --privileged multiarch/qemu-user-static:latest --reset -p yes -c yes
-    #docker run --privileged --rm tonistiigi/binfmt --install all
+    docker pull reg.git.brickburg.de/bbcontainers/hub/tonistiigi/binfmt:latest
+    #docker run --rm --privileged multiarch/qemu-user-static:latest --reset -p yes -c yes
+    docker run --privileged --rm reg.git.brickburg.de/bbcontainers/hub/tonistiigi/binfmt:latest --install all
 fi
 
 # build base

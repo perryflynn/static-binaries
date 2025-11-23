@@ -69,7 +69,8 @@ multiarch:enable:
   extends: .tpl:stable
   script:
     #- docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-    - docker run --rm --privileged multiarch/qemu-user-static:latest --reset -p yes -c yes
+    #- docker run --rm --privileged multiarch/qemu-user-static:latest --reset -p yes -c yes
+    - docker run --privileged --rm reg.git.brickburg.de/bbcontainers/hub/tonistiigi/binfmt:latest --install all
 
 prepare:baseimages:
   stage: prepare

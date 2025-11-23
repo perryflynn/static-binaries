@@ -63,6 +63,7 @@ variables:
   artifacts:
     paths:
       - dist/
+    expire_in: 2 days
   variables:
     uidimage: "staticbuild_${CI_JOB_ID}:latest"
     uidname: "staticbuild_${CI_JOB_ID}"

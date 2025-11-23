@@ -32,14 +32,14 @@ variables:
         DOCKERPLATFORM: linux/amd64
         BASEIMAGE: "$alpine_base_image"
         OWNBASEIMAGE: "$alpine_base_image_own"
-      # - ARCH: 'aarch64'
-      #   DOCKERPLATFORM: linux/arm64/v8
-      #   BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm64v8/alpine:3
-      #   OWNBASEIMAGE: "$CI_REGISTRY_IMAGE/alpine_base_aarch64:latest"
-      # - ARCH: 'armv7'
-      #   DOCKERPLATFORM: linux/arm/v7
-      #   BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm32v7/alpine:3
-      #   OWNBASEIMAGE: "$CI_REGISTRY_IMAGE/alpine_base_armv7:latest"
+      - ARCH: 'aarch64'
+        DOCKERPLATFORM: linux/arm64/v8
+        BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm64v8/alpine:3
+        OWNBASEIMAGE: "$CI_REGISTRY_IMAGE/alpine_base_aarch64:latest"
+      - ARCH: 'armv7'
+        DOCKERPLATFORM: linux/arm/v7
+        BASEIMAGE: reg.git.brickburg.de/bbcontainers/hub/arm32v7/alpine:3
+        OWNBASEIMAGE: "$CI_REGISTRY_IMAGE/alpine_base_armv7:latest"
 
 .tpl:defaultalpinebuild:
   stage: build
@@ -160,14 +160,14 @@ pack:pack:
     - mkdir serverless.industries-static-binaries.amd64
     - cp dist/*.amd64 serverless.industries-static-binaries.amd64
     - tar cvzf dist/all.amd64.tar.gz serverless.industries-static-binaries.amd64
-    # # create all-in-one package for aarch64
-    # - mkdir serverless.industries-static-binaries.aarch64
-    # - cp dist/*.aarch64 serverless.industries-static-binaries.aarch64
-    # - tar cvzf dist/all.aarch64.tar.gz serverless.industries-static-binaries.aarch64
-    # # create all-in-one package for armv7
-    # - mkdir serverless.industries-static-binaries.armv7
-    # - cp dist/*.armv7 serverless.industries-static-binaries.armv7
-    # - tar cvzf dist/all.armv7.tar.gz serverless.industries-static-binaries.armv7
+    # create all-in-one package for aarch64
+    - mkdir serverless.industries-static-binaries.aarch64
+    - cp dist/*.aarch64 serverless.industries-static-binaries.aarch64
+    - tar cvzf dist/all.aarch64.tar.gz serverless.industries-static-binaries.aarch64
+    # create all-in-one package for armv7
+    - mkdir serverless.industries-static-binaries.armv7
+    - cp dist/*.armv7 serverless.industries-static-binaries.armv7
+    - tar cvzf dist/all.armv7.tar.gz serverless.industries-static-binaries.armv7
     # create info.txt
     - cd dist
     - rm -f info.txt

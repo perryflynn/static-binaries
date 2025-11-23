@@ -19,6 +19,7 @@ RUN wget https://busybox.net/downloads/busybox-${busyboxversion}.tar.bz2 \
     bbchecksig.sh "denis.asc" "busybox-${busyboxversion}.tar.bz2.sig" "busybox-${busyboxversion}.tar.bz2" && \
     tar xvf busybox-${busyboxversion}.tar.bz2 && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
+    patch -p1 libbb/hash_md5_sha.c < /src/aarch64-libbbb.patch && \
     make defconfig && \
     LDFLAGS="--static" make -j${PARALLEL} && \
     mv busybox /dist/busybox.$ARCH && \

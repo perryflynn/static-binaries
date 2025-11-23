@@ -3,7 +3,7 @@
 set -u
 set -e
 
-cpuparallel=1
+cpuparallel=${PARALLEL:-1}
 ARCH="${2:-}"
 
 if [ ! -n "$ARCH" ]; then
@@ -22,11 +22,17 @@ elif [ "$ARCH" == "armv7" ]; then
     BASEIMAGE=reg.git.brickburg.de/bbcontainers/hub/arm32v7/alpine:3
     OWNBASEIMAGE=static-binaries-alpine-armv7:latest
     PLATFORM=linux/arm/v7
-else
+elif [ "$ARCH" == "amd64" ]; then
     BASEIMAGE=reg.git.brickburg.de/bbcontainers/hub/alpine:3
     OWNBASEIMAGE=static-binaries-alpine-amd64:latest
     PLATFORM=linux/amd64
+else
+    echo "Unsupported architecture: $ARCH"
+    exit 1
 fi
+
+BINFMTIMAGE=reg.git.brickburg.de/bbcontainers/hub/tonistiigi/binfmt:qemu-v10.0.4
+BINFMTARCHS=arm64,386,arm/v7
 
 cd "$(dirname "$0")"
 
@@ -37,9 +43,10 @@ docker pull $BASEIMAGE
 
 # enable qemu support
 if [ ! "$ARCH" == "amd64" ]; then
-    docker pull reg.git.brickburg.de/bbcontainers/hub/tonistiigi/binfmt:latest
+    docker pull reg.git.brickburg.de/bbcontainers/hub/tonistiigi/binfmt:qemu-v10.0.4
     #docker run --rm --privileged multiarch/qemu-user-static:latest --reset -p yes -c yes
-    docker run --privileged --rm reg.git.brickburg.de/bbcontainers/hub/tonistiigi/binfmt:latest --install all
+    docker run --privileged --rm "$BINFMTIMAGE" --uninstall "$BINFMTARCHS"
+    docker run --privileged --rm "$BINFMTIMAGE" --install "$BINFMTARCHS"
 fi
 
 # build base

@@ -46,4 +46,6 @@ RUN wget https://download.samba.org/pub/rsync/src/rsync-${rsyncversion}.tar.gz \
 RUN chmod a+x /dist/rsync.$ARCH && \
     /dist/rsync.$ARCH --version | head -n 1 > /dist/.version-rsync.$ARCH && \
     /dist/rsync.$ARCH --version && \
-    /dist/rsync.$ARCH --help
+    /dist/rsync.$ARCH --help && \
+    BINARY=/dist/rsync.$ARCH VERSION=$rsyncversion VERSIONINFO=/dist/.version-rsync.$ARCH bbensurebuild.sh && \
+    /src/tests.sh

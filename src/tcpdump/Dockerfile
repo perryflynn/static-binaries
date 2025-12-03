@@ -36,4 +36,5 @@ RUN pwd && ls -lisahF && wget https://www.tcpdump.org/release/tcpdump-${tcpdumpv
 RUN chmod a+x /dist/tcpdump.$ARCH && \
     /dist/tcpdump.$ARCH --version | tr '\n' ';' > /dist/.version-tcpdump.$ARCH && \
     /dist/tcpdump.$ARCH --version && \
-    /dist/tcpdump.$ARCH --help
+    /dist/tcpdump.$ARCH --help && \
+    BINARY=/dist/tcpdump.$ARCH VERSION=$tcpdumpversion VERSIONINFO=/dist/.version-tcpdump.$ARCH bbensurebuild.sh

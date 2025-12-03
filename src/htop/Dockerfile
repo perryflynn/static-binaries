@@ -23,4 +23,5 @@ RUN wget https://github.com/htop-dev/htop/releases/download/${htopversion}/htop-
 RUN chmod a+x /dist/htop.$ARCH && \
     /dist/htop.$ARCH --version | head -n 1 > /dist/.version-htop.$ARCH && \
     /dist/htop.$ARCH --version && \
-    /dist/htop.$ARCH --help
+    /dist/htop.$ARCH --help && \
+    BINARY=/dist/htop.$ARCH VERSION=$htopversion VERSIONINFO=/dist/.version-htop.$ARCH bbensurebuild.sh

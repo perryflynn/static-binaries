@@ -28,4 +28,5 @@ RUN wget -O smartmontools-${smartmontoolsversion}.tar.gz https://sourceforge.net
 RUN chmod a+x /dist/smartctl.$ARCH && \
     /dist/smartctl.$ARCH --version | head -n 1 > /dist/.version-smartctl.$ARCH && \
     /dist/smartctl.$ARCH --version && \
-    /dist/smartctl.$ARCH --help
+    /dist/smartctl.$ARCH --help && \
+    BINARY=/dist/smartctl.$ARCH VERSION=$smartmontoolsversion VERSIONINFO=/dist/.version-smartctl.$ARCH bbensurebuild.sh

@@ -21,4 +21,5 @@ RUN wget https://github.com/esnet/iperf/releases/download/${iperfversion}/iperf-
 RUN chmod a+x /dist/iperf3.$ARCH && \
     /dist/iperf3.$ARCH --version | head -n 1 > /dist/.version-iperf3.$ARCH && \
     /dist/iperf3.$ARCH --version && \
-    /dist/iperf3.$ARCH --help
+    /dist/iperf3.$ARCH --help && \
+    BINARY=/dist/iperf3.$ARCH VERSION=$iperfversion VERSIONINFO=/dist/.version-iperf3.$ARCH bbensurebuild.sh

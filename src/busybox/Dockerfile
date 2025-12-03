@@ -27,4 +27,5 @@ RUN wget https://busybox.net/downloads/busybox-${busyboxversion}.tar.bz2 \
 
 RUN chmod a+x /dist/busybox.$ARCH && \
     /dist/busybox.$ARCH --help | head -n 1 > /dist/.version-busybox.$ARCH && \
-    /dist/busybox.$ARCH --help
+    /dist/busybox.$ARCH --help && \
+    BINARY=/dist/busybox.$ARCH VERSION=$busyboxversion VERSIONINFO=/dist/.version-busybox.$ARCH bbensurebuild.sh

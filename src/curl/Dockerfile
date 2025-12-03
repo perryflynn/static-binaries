@@ -25,4 +25,5 @@ RUN chmod a+x build.sh && ./build.sh
 RUN chmod a+x /dist/curl.$ARCH && \
     /dist/curl.$ARCH --version | head -n 1 > /dist/.version-curl.$ARCH && \
     /dist/curl.$ARCH --version && \
-    /dist/curl.$ARCH --help
+    /dist/curl.$ARCH --help && \
+    BINARY=/dist/curl.$ARCH VERSION=$CURL_VERSION VERSIONINFO=/dist/.version-curl.$ARCH bbensurebuild.sh

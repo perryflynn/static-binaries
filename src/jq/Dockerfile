@@ -22,4 +22,5 @@ RUN wget https://github.com/jqlang/jq/releases/download/jq-${jqversion}/jq-${jqv
 RUN chmod a+x /dist/jq.$ARCH && \
     /dist/jq.$ARCH --version | head -n 1 > /dist/.version-jq.$ARCH && \
     /dist/jq.$ARCH --version && \
-    /dist/jq.$ARCH --help
+    /dist/jq.$ARCH --help && \
+    BINARY=/dist/jq.$ARCH VERSION=$jqversion VERSIONINFO=/dist/.version-jq.$ARCH bbensurebuild.sh

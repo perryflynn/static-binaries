@@ -30,9 +30,14 @@ RUN wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${sshversi
     mv ssh-keyscan /dist/ssh-keyscan.$ARCH && strip /dist/ssh-keyscan.$ARCH
 
 RUN chmod a+x /dist/*.$ARCH && \
+    /dist/ssh.$ARCH -V 2>&1 && \
     /dist/ssh.$ARCH -V > /dist/.version-scp.$ARCH 2>&1 && \
+    BINARY=/dist/scp.$ARCH VERSION=$sshversion VERSIONINFO=/dist/.version-scp.$ARCH bbensurebuild.sh && \
     /dist/ssh.$ARCH -V > /dist/.version-sftp.$ARCH 2>&1 && \
+    BINARY=/dist/sftp.$ARCH VERSION=$sshversion VERSIONINFO=/dist/.version-sftp.$ARCH bbensurebuild.sh && \
     /dist/ssh.$ARCH -V > /dist/.version-ssh.$ARCH 2>&1 && \
+    BINARY=/dist/ssh.$ARCH VERSION=$sshversion VERSIONINFO=/dist/.version-ssh.$ARCH bbensurebuild.sh && \
     /dist/ssh.$ARCH -V > /dist/.version-ssh-keygen.$ARCH 2>&1 && \
+    BINARY=/dist/ssh-keygen.$ARCH VERSION=$sshversion VERSIONINFO=/dist/.version-ssh-keygen.$ARCH bbensurebuild.sh && \
     /dist/ssh.$ARCH -V > /dist/.version-ssh-keyscan.$ARCH 2>&1 && \
-    /dist/ssh.$ARCH -V 2>&1
+    BINARY=/dist/ssh-keyscan.$ARCH VERSION=$sshversion VERSIONINFO=/dist/.version-ssh-keyscan.$ARCH bbensurebuild.sh

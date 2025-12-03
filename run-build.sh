@@ -3,13 +3,20 @@
 set -u
 set -e
 
+cd "$(dirname "$0")"
+
+# command line and ENV arguments
+# usage: ./run-build.sh <foldername> <architecture> <optional special mode>
 cpuparallel=${PARALLEL:-1}
+FOLDER=${1:-}
 ARCH="${2:-}"
+MODE="${3:-}"
 
 if [ ! -n "$ARCH" ]; then
     ARCH=amd64
 fi
 
+# configuration by architecture
 if [ "$ARCH" == "x86" ]; then
     BASEIMAGE=reg.git.brickburg.de/bbcontainers/hub/i386/alpine:3
     OWNBASEIMAGE=static-binaries-alpine-x86:latest
@@ -31,17 +38,26 @@ else
     exit 1
 fi
 
+# define exit trap
+uidimage=static-binary-$FOLDER:latest
+uidname=static-binary-extract-$FOLDER
+
+cleanup() {
+    docker stop $uidname || true
+    sleep 3
+    docker image rm "$uidimage" || true
+}
+
+trap cleanup EXIT
+
+# binfmt images and architectures to use
 BINFMTIMAGE=reg.git.brickburg.de/bbcontainers/hub/tonistiigi/binfmt:qemu-v10.0.4
 BINFMTARCHS=arm64,386,arm/v7
 
-cd "$(dirname "$0")"
-
 # cleanup
-#docker system prune -a -f
-
 docker pull $BASEIMAGE
 
-# enable qemu support
+# enable qemu multi arch support
 if [ ! "$ARCH" == "amd64" ]; then
     docker pull reg.git.brickburg.de/bbcontainers/hub/tonistiigi/binfmt:qemu-v10.0.4
     #docker run --rm --privileged multiarch/qemu-user-static:latest --reset -p yes -c yes
@@ -55,16 +71,14 @@ docker --debug buildx build --pull --platform "$PLATFORM" -t "$OWNBASEIMAGE" --p
 
 # build requested binary
 cd ../..
-folder=${1:-}
 
-if [ ! -n "$folder" ] || [ ! -d "src/$folder" ]; then
-    echo "unknown container folder '$folder'"
+if [ ! -n "$FOLDER" ] || [ ! -d "src/$FOLDER" ]; then
+    echo "unknown container folder '$FOLDER'"
     exit 1
 fi
 
-cd src/$folder
+cd src/$FOLDER
 
-uidimage=static-binary-$folder:latest
 docker buildx build -t "$uidimage" --platform "$PLATFORM" --progress=plain \
     --build-arg ARCH=$ARCH --build-arg BASEIMAGE=$OWNBASEIMAGE --build-arg PARALLEL=$cpuparallel .
 
@@ -72,15 +86,14 @@ docker buildx build -t "$uidimage" --platform "$PLATFORM" --progress=plain \
 cd ../..
 mkdir -p dist
 
-uidname=static-binary-extract-$folder
 docker run -d --rm --platform "$PLATFORM" --name "$uidname" "$uidimage" /bin/sleep 300
 sleep 3
 
-docker cp $uidname:/dist/. dist/
-docker stop $uidname
-sleep 3
+if [ "$MODE" == "shell" ]; then
+    docker exec -it "$uidname" bash
+else
+    docker cp $uidname:/dist/. dist/
 
-docker image rm "$uidimage"
-
-echo
-cat dist/.version-$folder.$ARCH
+    echo
+    cat dist/.version-$FOLDER.$ARCH
+fi

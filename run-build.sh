@@ -38,6 +38,8 @@ else
     exit 1
 fi
 
+TESTIMAGE="${OWNBASEIMAGE}-test"
+
 # define exit trap
 uidimage=static-binary-$FOLDER:latest
 uidname=static-binary-extract-$FOLDER
@@ -68,6 +70,7 @@ fi
 # build base
 cd src/base-alpine
 docker --debug buildx build --pull --platform "$PLATFORM" -t "$OWNBASEIMAGE" --progress=plain --build-arg BASEIMAGE=$BASEIMAGE .
+docker --debug buildx build --pull --platform "$PLATFORM" -t "$TESTIMAGE" --progress=plain --build-arg BASEIMAGE=$BASEIMAGE -f Dockerfile.test .
 
 # build requested binary
 cd ../..
@@ -80,7 +83,8 @@ fi
 cd src/$FOLDER
 
 docker buildx build -t "$uidimage" --platform "$PLATFORM" --progress=plain \
-    --build-arg ARCH=$ARCH --build-arg BASEIMAGE=$OWNBASEIMAGE --build-arg PARALLEL=$cpuparallel .
+    --build-arg ARCH=$ARCH --build-arg BASEIMAGE=$OWNBASEIMAGE \
+    --build-arg TESTIMAGE=$TESTIMAGE --build-arg PARALLEL=$cpuparallel .
 
 # extract result
 cd ../..

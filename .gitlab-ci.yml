@@ -51,7 +51,10 @@ variables:
     # build
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - cd src/$containerfolder
-    - docker buildx build --platform "$DOCKERPLATFORM" --cache-from "$uidimage" --cache-to type=inline -t "$uidimage" --build-arg ARCH=$ARCH --build-arg BASEIMAGE=$OWNBASEIMAGE --build-arg PARALLEL=$cpuparallel .
+    - |
+        docker buildx build --platform "$DOCKERPLATFORM" --cache-from "$uidimage" --cache-to type=inline -t "$uidimage" \
+            --build-arg ARCH=$ARCH --build-arg PARALLEL=$cpuparallel \
+            --build-arg BASEIMAGE=$OWNBASEIMAGE --build-arg TESTIMAGE=${OWNBASEIMAGE}-test .
     - cd ../../
     # extract binary
     - docker run -d --rm --name "$uidname" "$uidimage" /bin/sleep 300
@@ -72,8 +75,6 @@ multiarch:enable:
   stage: multiarch
   extends: .tpl:stable
   script:
-    #- docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-    #- docker run --rm --privileged multiarch/qemu-user-static:latest --reset -p yes -c yes
     - docker run --privileged --rm "$BINFMTIMAGE" --uninstall "$BINFMTARCHS"
     - docker run --privileged --rm "$BINFMTIMAGE" --install "$BINFMTARCHS"
 
@@ -85,6 +86,8 @@ prepare:baseimages:
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker buildx build --platform "$DOCKERPLATFORM" --cache-from "${OWNBASEIMAGE}" --cache-to type=inline -t "$OWNBASEIMAGE" --build-arg BASEIMAGE=$BASEIMAGE .
     - docker push "$OWNBASEIMAGE"
+    - docker buildx build --platform "$DOCKERPLATFORM" --cache-from "${OWNBASEIMAGE}-test" --cache-to type=inline -t "${OWNBASEIMAGE}-test" --build-arg BASEIMAGE=$BASEIMAGE -f Dockerfile.test .
+    - docker push "${OWNBASEIMAGE}-test"
 
 build:busybox:
   stage: build

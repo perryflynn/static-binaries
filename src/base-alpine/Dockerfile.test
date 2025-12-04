@@ -1,0 +1,19 @@
+ARG BASEIMAGE=alpine:3
+FROM ${BASEIMAGE}
+
+ARG USERID=1000
+ARG USERNAME=builduser
+
+RUN apk add --no-cache file bash tini bats jq
+
+COPY /root /
+
+RUN addgroup -g ${USERID} -S ${USERNAME} && \
+    adduser -u ${USERID} -S ${USERNAME} -G ${USERNAME} -s /bin/bash && \
+    mkdir /src /dist && chown ${USERNAME}:${USERNAME} /src /dist && \
+    echo -n "${USERID}" > /.userid && \
+    echo -n "${USERNAME}}" > /.username
+
+WORKDIR /src
+ENTRYPOINT [ "/sbin/tini", "--" ]
+SHELL [ "/bin/bash", "-c" ]

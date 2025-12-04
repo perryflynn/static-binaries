@@ -45,4 +45,4 @@ RUN chmod a+x /dist/dig.$ARCH && \
     /dist/nsupdate.$ARCH -V > /dist/.version-nsupdate.$ARCH 2>&1 && \
     /dist/nsupdate.$ARCH -V 2>&1 && \
     echo -e "help\nquit" | /dist/nsupdate.$ARCH 2>&1 && \
-    BINARY=/dist/nsupdate.$ARCH VERSION=$BIND9_VERSION VERSIONINFO=/dist/.version-nsupdate.$ARCH bbensurebuild.sh && \
+    BINARY=/dist/nsupdate.$ARCH VERSION=$BIND9_VERSION VERSIONINFO=/dist/.version-nsupdate.$ARCH bbensurebuild.sh

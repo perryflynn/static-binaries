@@ -17,8 +17,8 @@ RUN wget https://sourceforge.net/projects/iperf2/files/iperf-${iperfversion}.tar
     tar xvzf download && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
     patch -p1 src/checksums.c < /src/musl-fix.patch && \
-    ./configure --enable-static-bin && \
-    make -j${PARALLEL} && \
+    ./configure && \
+    make -j${PARALLEL} LDFLAGS=--static && \
     mv src/iperf /dist/iperf2.$ARCH && \
     strip /dist/iperf2.$ARCH
 

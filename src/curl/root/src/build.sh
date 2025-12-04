@@ -1,32 +1,17 @@
 #!/bin/sh
-
 # https://github.com/moparisthebest/static-curl/blob/master/build.sh
-# to test locally, run one of:
-# docker run --rm -v $(pwd):/tmp -w /tmp -e ARCH=amd64 alpine /tmp/build.sh
-# docker run --rm -v $(pwd):/tmp -w /tmp -e ARCH=aarch64 multiarch/alpine:aarch64-latest-stable /tmp/build.sh
-# docker run --rm -v $(pwd):/tmp -w /tmp -e ARCH=ARCH_HERE ALPINE_IMAGE_HERE /tmp/build.sh
 
-set -exu
+set -eu
 
 #apk add build-base clang openssl-dev nghttp2-dev nghttp2-static libssh2-dev libssh2-static
 #apk add openssl-libs-static zlib-static || true
 
-if [ ! -f curl-${CURL_VERSION}.tar.gz ]
-then
+echo -n "Checksum of downloaded file: "
+sha256sum /download/curl-${CURL_VERSION}.tar.gz
+echo "$CHECKSUM /download/curl-${CURL_VERSION}.tar.gz" | sha256sum -c
+bbchecksig.sh "mykey.asc" "/download/curl-${CURL_VERSION}.tar.gz.asc" "/download/curl-${CURL_VERSION}.tar.gz"
 
-    wget https://curl.se/download/curl-${CURL_VERSION}.tar.gz \
-        https://curl.se/download/curl-${CURL_VERSION}.tar.gz.asc
-
-    echo -n "Checksum of downloaded file: "
-    sha256sum curl-${CURL_VERSION}.tar.gz
-    echo "$CHECKSUM curl-${CURL_VERSION}.tar.gz" | sha256sum -c
-    bbchecksig.sh "mykey.asc" "curl-${CURL_VERSION}.tar.gz.asc" "curl-${CURL_VERSION}.tar.gz"
-
-fi
-
-rm -rf "curl-${CURL_VERSION}/"
-tar xzf curl-${CURL_VERSION}.tar.gz
-
+tar xzf /download/curl-${CURL_VERSION}.tar.gz
 cd curl-${CURL_VERSION}/
 
 # gcc is apparantly incapable of building a static binary, even gcc -static helloworld.c ends up linked to libc, instead of solving, use clang
@@ -50,10 +35,7 @@ ARCH=$ARCH LDFLAGS="-static" PKG_CONFIG="pkg-config --static" ./configure --disa
 ARCH=$ARCH make -j${PARALLEL} V=1 LDFLAGS="-static -all-static"
 
 # binary is ~13M before stripping, 2.6M after
-strip src/curl
-
-# exit with error code 1 if the executable is dynamic, not static
-ldd src/curl && exit 1 || true
+bbstrip.sh src/curl
 
 # we only want to save curl here
 mv src/curl "/dist/curl.$ARCH"

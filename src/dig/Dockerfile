@@ -1,10 +1,11 @@
-ARG BASEIMAGE
-FROM ${BASEIMAGE}
-
+ARG BASEIMAGE TESTIMAGE ARCH=amd64 PARALLEL=4
 ARG BIND9_VERSION=9.16.50
-ARG ARCH=amd64
-ARG PARALLEL=4
 ARG CHECKSUM=816dbaa3c115019f30fcebd9e8ef8f7637f4adde91c79daa099b035255a15795
+
+# -> Build
+
+FROM ${BASEIMAGE} AS build
+ARG ARCH PARALLEL BIND9_VERSION CHECKSUM
 
 USER root
 RUN apk add --no-cache libuv-dev libuv-static \
@@ -17,11 +18,13 @@ COPY root/ /
 RUN chown builduser:builduser /src
 
 USER builduser
-RUN wget https://downloads.isc.org/isc/bind9/${BIND9_VERSION}/bind-${BIND9_VERSION}.tar.xz \
-        https://downloads.isc.org/isc/bind9/${BIND9_VERSION}/bind-${BIND9_VERSION}.tar.xz.asc && \
-    echo "$CHECKSUM bind-${BIND9_VERSION}.tar.xz" | sha256sum -c && \
-    bbchecksig.sh "isc-keyblock.asc" "bind-${BIND9_VERSION}.tar.xz.asc" "bind-${BIND9_VERSION}.tar.xz" && \
-    tar xvf bind-${BIND9_VERSION}.tar.xz && \
+
+RUN --mount=type=cache,target=/download,uid=$USERID,gid=$USERID \
+    bbwget.sh https://downloads.isc.org/isc/bind9/${BIND9_VERSION}/bind-${BIND9_VERSION}.tar.xz /download/bind-${BIND9_VERSION}.tar.xz && \
+    bbwget.sh https://downloads.isc.org/isc/bind9/${BIND9_VERSION}/bind-${BIND9_VERSION}.tar.xz.asc /download/bind-${BIND9_VERSION}.tar.xz.asc && \
+    echo "$CHECKSUM /download/bind-${BIND9_VERSION}.tar.xz" | sha256sum -c && \
+    bbchecksig.sh "isc-keyblock.asc" "/download/bind-${BIND9_VERSION}.tar.xz.asc" "/download/bind-${BIND9_VERSION}.tar.xz" && \
+    tar xf /download/bind-${BIND9_VERSION}.tar.xz && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
     CFLAGS="-static -O2" ./configure --without-python --disable-symtable --disable-backtrace --disable-linux-caps && \
     cd lib/dns/ && make -j${PARALLEL} && \
@@ -30,11 +33,18 @@ RUN wget https://downloads.isc.org/isc/bind9/${BIND9_VERSION}/bind-${BIND9_VERSI
     cd ../isccfg/ && make -j${PARALLEL} && \
     cd ../irs/ && make -j${PARALLEL} && \
     cd ../../bin/dig && make -j${PARALLEL} && \
-    strip dig && \
+    bbstrip.sh dig && \
     cp dig /dist/dig.$ARCH && \
     cd ../../bin/nsupdate && make -j${PARALLEL} && \
-    strip nsupdate && \
+    bbstrip.sh nsupdate && \
     cp nsupdate /dist/nsupdate.$ARCH
+
+# -> Test
+
+FROM ${TESTIMAGE} AS test
+ARG ARCH BIND9_VERSION
+
+COPY --from=build /dist /dist
 
 RUN chmod a+x /dist/dig.$ARCH && \
     /dist/dig.$ARCH -v > /dist/.version-dig.$ARCH 2>&1 && \

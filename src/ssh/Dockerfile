@@ -1,10 +1,11 @@
-ARG BASEIMAGE
-FROM ${BASEIMAGE}
-
+ARG BASEIMAGE TESTIMAGE ARCH=amd64 PARALLEL=4
 ARG sshversion=10.2p1
-ARG ARCH=amd64
-ARG PARALLEL=4
 ARG CHECKSUM=ccc42c0419937959263fa1dbd16dafc18c56b984c03562d2937ce56a60f798b2
+
+# -> Build
+
+FROM ${BASEIMAGE} AS build
+ARG ARCH PARALLEL sshversion CHECKSUM
 
 RUN apk add --no-cache zlib-dev zlib-static
 
@@ -13,21 +14,29 @@ RUN chown builduser:builduser /src
 
 USER builduser
 
-RUN wget https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${sshversion}.tar.gz \
-        https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${sshversion}.tar.gz.asc && \
-    echo -n "Checksum of downloaded file: " && sha256sum "openssh-${sshversion}.tar.gz" && \
-    echo "$CHECKSUM openssh-${sshversion}.tar.gz" | sha256sum -c && \
-    bbchecksig.sh "RELEASE_KEY.asc" "openssh-${sshversion}.tar.gz.asc" "openssh-${sshversion}.tar.gz" && \
-    tar xvzf openssh-${sshversion}.tar.gz && \
+RUN --mount=type=cache,target=/download,uid=$USERID,gid=$USERID \
+    bbwget.sh https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${sshversion}.tar.gz /download/openssh-${sshversion}.tar.gz && \
+    bbwget.sh https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${sshversion}.tar.gz.asc /download/openssh-${sshversion}.tar.gz.asc && \
+    echo -n "Checksum of downloaded file: " && sha256sum "/download/openssh-${sshversion}.tar.gz" && \
+    echo "$CHECKSUM /download/openssh-${sshversion}.tar.gz" | sha256sum -c && \
+    bbchecksig.sh "RELEASE_KEY.asc" "/download/openssh-${sshversion}.tar.gz.asc" "/download/openssh-${sshversion}.tar.gz" && \
+    tar xzf /download/openssh-${sshversion}.tar.gz && \
     cd $(find . -maxdepth 1 -mindepth 1 -type d) && \
     autoreconf && \
     ./configure --with-cflags=-static LIBS=-lpthread --with-ldflags=-static && \
     make -j${PARALLEL} && \
-    mv scp /dist/scp.$ARCH && strip /dist/scp.$ARCH && \
-    mv sftp /dist/sftp.$ARCH && strip /dist/sftp.$ARCH && \
-    mv ssh /dist/ssh.$ARCH && strip /dist/ssh.$ARCH && \
-    mv ssh-keygen /dist/ssh-keygen.$ARCH && strip /dist/ssh-keygen.$ARCH && \
-    mv ssh-keyscan /dist/ssh-keyscan.$ARCH && strip /dist/ssh-keyscan.$ARCH
+    mv scp /dist/scp.$ARCH && bbstrip.sh /dist/scp.$ARCH && \
+    mv sftp /dist/sftp.$ARCH && bbstrip.sh /dist/sftp.$ARCH && \
+    mv ssh /dist/ssh.$ARCH && bbstrip.sh /dist/ssh.$ARCH && \
+    mv ssh-keygen /dist/ssh-keygen.$ARCH && bbstrip.sh /dist/ssh-keygen.$ARCH && \
+    mv ssh-keyscan /dist/ssh-keyscan.$ARCH && bbstrip.sh /dist/ssh-keyscan.$ARCH
+
+# -> Test
+
+FROM ${TESTIMAGE} AS test
+ARG ARCH sshversion
+
+COPY --from=build /dist /dist
 
 RUN chmod a+x /dist/*.$ARCH && \
     /dist/ssh.$ARCH -V 2>&1 && \

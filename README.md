@@ -26,6 +26,7 @@ Last checked for new versions: 2025-11-23
 
 - dig: [Starting from 9.18 static builds are unsupported](https://kb.isc.org/docs/changes-to-be-aware-of-when-moving-from-bind-916-to-918)
 - curl: libpsl and libidn2 cannot be found in `./configure` phase, so disabled for now
+- curl: HTTP3 support will come as soon as ngtcp2 is included in alpine (already in edge)
 - rsync: There is no way to verify if the gpg key `9FEF112DCE19A0DC7E882CB81BB24997A8535F6F` is valid, just took it now from keyserver.
   Just putting it on samba.org is too hard, as it looks like. [Gentoo Devs ranted on that too](https://bugs.gentoo.org/948106).
 

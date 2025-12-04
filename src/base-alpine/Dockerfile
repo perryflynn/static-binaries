@@ -9,13 +9,15 @@ RUN apk add --no-cache alpine-sdk linux-headers \
         gcc make musl-dev ncurses-static \
         openssl-libs-static zlib-static gnupg \
         flex bison lftp file bash xz autoconf automake tini patch \
-        bats jq
+        bats jq wget
 
 COPY /root /
 
+ENV USERID=$USERID USERNAME=$USERNAME
+
 RUN addgroup -g ${USERID} -S ${USERNAME} && \
     adduser -u ${USERID} -S ${USERNAME} -G ${USERNAME} -s /bin/bash && \
-    mkdir /src /dist && chown ${USERNAME}:${USERNAME} /src /dist && \
+    mkdir /download /src /dist && chown ${USERNAME}:${USERNAME} /download /src /dist && \
     echo -n "${USERID}" > /.userid && \
     echo -n "${USERNAME}}" > /.username
 

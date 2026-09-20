@@ -4,6 +4,11 @@ stages:
   - build
   - pack
 
+include:
+  - project: bbcontainers/ci-templates
+    ref: master
+    file: templates/docker-build.gitlab-ci.yml
+
 variables:
   alpine_base_image: "reg.git.brickburg.de/bbcontainers/hub/alpine:3"
   alpine_base_image_own: "$CI_REGISTRY_IMAGE/alpine_base_amd64:latest"
@@ -12,14 +17,15 @@ variables:
   BINFMTIMAGE: reg.git.brickburg.de/bbcontainers/hub/tonistiigi/binfmt:qemu-v10.0.4
   BINFMTARCHS: arm64,386,arm/v7
 
-.tpl:docker:
-  image: reg.git.brickburg.de/bbcontainers/hub/docker:bb-stable-buildx
+.tpl:run:
+  image: "$alpine_base_image_own"
   tags:
     - docker
-    - gitrunner-einbeck01
+  only:
+    - master
 
 .tpl:stable:
-  extends: .tpl:docker
+  extends: .docker
   only:
     - master
 
@@ -157,8 +163,7 @@ build:smartctl:
 
 pack:pack:
   stage: pack
-  extends: .tpl:stable
-  image: "$alpine_base_image_own"
+  extends: .tpl:run
   script:
     - ls -lisah dist/
     # create all-in-one package for x86
